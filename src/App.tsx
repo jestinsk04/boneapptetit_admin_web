@@ -1,35 +1,38 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from 'react';
+import './App.css';
+import { Button } from 'flowbite-react';
+import LoginView from './features/auth/LoginView';
+import { auth } from './shared/config/firebase';
 
 function App() {
-  const [count, setCount] = useState(0)
+    const [user, setUser] = useState<string | null>(null);
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    const handleLogout = async () => {
+        try {
+            await auth.signOut();
+            setUser(null);
+            console.log('¡Usuario ha cerrado sesión!');
+        } catch (error) {
+            console.error('Error al cerrar sesión:', error);
+        }
+    };
+
+    const handleLogin = (user: string) => {
+        setUser(user);
+    };
+
+    return (
+        <div className="w-screen flex justify-center items-center">
+            {user ? (
+                <div className="grid grid-cols-1 gap-4 justify-items-center">
+                    <p>¡Hola, {user}!</p>
+                    <Button onClick={handleLogout}>Cerrar sesión</Button>
+                </div>
+            ) : (
+                <LoginView handleLogin={handleLogin} />
+            )}
+        </div>
+    );
 }
 
-export default App
+export default App;
