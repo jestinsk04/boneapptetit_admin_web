@@ -1,20 +1,52 @@
 import { initializeApp } from 'firebase/app';
-import { getAuth, GoogleAuthProvider } from 'firebase/auth';
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+import {
+    GoogleAuthProvider,
+    getAuth,
+    signInWithPopup,
+    signOut,
+} from 'firebase/auth';
+import type { LoginUserData } from '../types/dto/login.dto';
+import { loginService } from '../services/login.service';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-    apiKey: 'AIzaSyCJzuJjTkbrwwoechYQI-pYGGZJkKCGTLk',
-    authDomain: 'gen-lang-client-0359101987.firebaseapp.com',
-    projectId: 'gen-lang-client-0359101987',
-    storageBucket: 'gen-lang-client-0359101987.firebasestorage.app',
-    messagingSenderId: '341937476244',
-    appId: '1:341937476244:web:c6e737b76cb2101fdd1a81',
+    apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+    authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+    projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+    storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+    appId: import.meta.env.VITE_FIREBASE_APP_ID,
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
 
-export const auth = getAuth(app);
-export const googleProvider = new GoogleAuthProvider();
+export async function loginWithGoogle(): Promise<undefined | LoginUserData> {
+    const provider = new GoogleAuthProvider();
+    const cred = await signInWithPopup(auth, provider);
+    const tokenID = await cred.user.getIdToken(/* forceRefresh */ true);
+
+    if (!cred.user) return;
+
+    const response = await loginService.Login(tokenID);
+
+    // Si el backend borró al usuario por no tener claim:
+    if (!response) {
+        await signOut(auth); // limpia sesión del cliente
+        console.error('acceso denegado');
+        return;
+    }
+
+    const user: LoginUserData = {
+        displayName: cred.user.displayName || '',
+        email: cred.user.email || '',
+    };
+
+    return user;
+}
+
+export async function logoutEverywhere() {
+    await loginService.Logout();
+    await signOut(auth);
+}
