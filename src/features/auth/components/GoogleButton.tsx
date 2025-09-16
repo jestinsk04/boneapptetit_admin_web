@@ -25,8 +25,8 @@ export const GoogleButton = ({ handleLogin }: GoogleButtonProps) => {
   const theme = createTheme({
     button: {
         color:{
-            modifed: "bg-green-700 text-white hover:bg-green-800 focus:ring-primary-300",
-            default: "bg-yellow-700 text-white hover:bg-yellow-800 focus:ring-primary-300"
+          modifed: "bg-[#ff7340] text-white hover:bg-[#e66a38] focus:ring-[#ff7340] focus:ring-4 gap-2",
+          default: "bg-yellow-700 text-white hover:bg-yellow-800 focus:ring-primary-300"
         }
     }
   });
@@ -37,6 +37,7 @@ export const GoogleButton = ({ handleLogin }: GoogleButtonProps) => {
         onClick={handleGoogleLogin}
         color="modifed"
         pill
+       className= " bg-[#ff7340] w-full flex items-center justify-center gap-2"
       >
         <FaGoogle className="w-5 h-5" />
         Iniciar sesión con Google
