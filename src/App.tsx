@@ -1,29 +1,35 @@
-import { Button, ThemeConfig } from "flowbite-react";
-import LoginView from "./features/auth/LoginView";
-import { useAuthStore, useAuthStoreActions } from "./app/store/auth";
+import { useAuthStore,  } from "./app/store/auth";
 import './App.css';
+import {Nav }from "./shared/component/Navbar";
+import { AuthNavigation } from "./app/navigation/AuthNavigation";
+import { RootNavigation } from "./app/navigation/RootNavigation";
+
 
 function App() {
-  const removeSessionData = useAuthStoreActions().removeSessionData;
   const isLoggedIn = useAuthStore().isLoggedIn;
-  const user = useAuthStore().email;
-
-  const handleLogout = async () => {
-    removeSessionData();
-  };
 
   return (
     <>
-      <div className="w-screen flex justify-center items-center">
+    
+    <main>
+
+      <div className="App w-screen flex justify-center items-center">
         {isLoggedIn ? (
-          <div className="grid grid-cols-1 gap-4 justify-items-center">
-            <p>¡Hola, {user}!</p>
-            <Button onClick={handleLogout}>Cerrar sesión</Button>
+          
+          <div className="grid grid-cols-1 gap-4 justify-items-center w-full">
+            <Nav />
+            <RootNavigation/>
+
           </div>
+          
         ) : (
-          <LoginView />
+          <div className="w-full">
+          <AuthNavigation />
+
+          </div>
         )}
       </div>
+    </main>
     </>
   );
 }
