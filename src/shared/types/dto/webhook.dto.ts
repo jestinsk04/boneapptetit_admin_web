@@ -14,6 +14,11 @@ export interface webhookConfig {
   updateAt: string;
 }
 
+export type syncOrderByStatusType =
+  | "PAID"
+  | "FULLFILLED"
+  | "PAID_AND_FULLFILLED";
+
 export type updateWebhookConfigRequest = {
   id: number;
   odooOrderCreationState: string;

@@ -7,6 +7,7 @@ import { useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AllCommunityModule, ModuleRegistry } from "ag-grid-community";
 import { ThemeConfig } from "flowbite-react";
+import { ToastContainer } from "react-toastify";
 
 // Registrar módulos (obligatorio en v33+)clear
 ModuleRegistry.registerModules([AllCommunityModule]);
@@ -29,7 +30,7 @@ function App() {
   return (
     <>
       <ThemeConfig dark={false} />
-
+      <ToastContainer />
       {isLoggedIn ? (
         <QueryClientProvider client={client}>
           <div className="h-dvh grid grid-rows-[auto_1fr]">

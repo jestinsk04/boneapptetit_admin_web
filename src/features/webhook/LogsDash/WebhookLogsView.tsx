@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useLayoutEffect } from "react";
 import { AgGridReact } from "ag-grid-react";
 import { colDefs } from "./utils/tableDefinitions";
 import { AG_GRID_LOCALE_ES_MX } from "@/shared/libs/ag-grid-es";
@@ -8,8 +8,18 @@ import { webhookService } from "@/shared/services/webhook.service";
 import { useQuery } from "@tanstack/react-query";
 import { GridReadyEvent } from "ag-grid-community";
 import { webhookLogs } from "@/shared/types/dto/webhook.dto";
+import { useOutletContext } from "react-router";
+import { LayoutOutletContext } from "@/shared/types/components/Layout";
 
 export const WebhookLogsView = () => {
+  const { handleChangeViewName, currentViewName } =
+    useOutletContext<LayoutOutletContext>();
+
+  useLayoutEffect(() => {
+    if (currentViewName !== "Webhook Logs") {
+      handleChangeViewName("Webhook Logs");
+    }
+  }, [currentViewName, handleChangeViewName]);
   const { data: gridData, refetch: refetchGridData } = useQuery({
     queryKey: ["webhook-logs-data"],
     queryFn: async () => await webhookService.GetLogs(),

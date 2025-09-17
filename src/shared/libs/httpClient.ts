@@ -56,14 +56,15 @@ export function restApiHttpRequest<T>({
             resolve();
             return;
           }
-          // if (error.response && error.response.status === 401) {
-          //   // Handle unauthorized error
-          //   // Maybe redirect to login page or show a message
-          //   AuthStore.getState().removeSessionData();
-          //   window.location.reload();
-          //   resolve();
-          //   return;
-          // }
+          if (error.response && error.response.status === 401) {
+            // Handle unauthorized error
+            // Maybe redirect to login page or show a message
+            AuthStore.getState().removeSessionData();
+            window.location.href = "/";
+            return;
+          }
+          resolve();
+          return;
         }
       }
     })();
