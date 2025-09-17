@@ -52,7 +52,7 @@ export const Layout = ({ sectionName }: LayoutProps) => {
     setBreacrombItems(component);
 
   return (
-    <div className="@container/admin w-full mb-auto px-6">
+    <div className="@container/admin w-full mb-auto mt-2 px-6">
       <div className="flex items-center justify-between mb-5">
         <div className="flex text-3xl text-gray-800 gap-2">
           {viewNameWithComponent ? viewNameWithComponent : viewName}

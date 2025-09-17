@@ -12,6 +12,7 @@ export type RestHttpRequestType = {
 const restClient = axios.create({
   baseURL: import.meta.env.VITE_API_HOST,
   timeout: 20000,
+  withCredentials: true,
 });
 
 export function restApiHttpRequest<T>({
@@ -55,14 +56,14 @@ export function restApiHttpRequest<T>({
             resolve();
             return;
           }
-          if (error.response && error.response.status === 401) {
-            // Handle unauthorized error
-            // Maybe redirect to login page or show a message
-            AuthStore.getState().removeSessionData();
-            window.location.reload();
-            resolve();
-            return;
-          }
+          // if (error.response && error.response.status === 401) {
+          //   // Handle unauthorized error
+          //   // Maybe redirect to login page or show a message
+          //   AuthStore.getState().removeSessionData();
+          //   window.location.reload();
+          //   resolve();
+          //   return;
+          // }
         }
       }
     })();

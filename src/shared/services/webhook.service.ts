@@ -11,6 +11,7 @@ const GetLogs = async (): Promise<webhookLogs[]> => {
     const res = await restApiHttpRequest<webhookLogs[]>({
       endpoint: EndpointsList.Webhook.GetLogs.endpoint,
     });
+    console.log("Webhook logs response:", res);
     if (res) {
       return res;
     }

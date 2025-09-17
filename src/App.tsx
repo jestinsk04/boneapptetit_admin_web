@@ -6,6 +6,7 @@ import { RootNavigation } from "./app/navigation/RootNavigation";
 import { useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AllCommunityModule, ModuleRegistry } from "ag-grid-community";
+import { ThemeConfig } from "flowbite-react";
 
 // Registrar módulos (obligatorio en v33+)clear
 ModuleRegistry.registerModules([AllCommunityModule]);
@@ -27,22 +28,28 @@ function App() {
 
   return (
     <>
-      <main>
-        <div className="App w-screen flex justify-center items-center">
-          {isLoggedIn ? (
-            <QueryClientProvider client={client}>
-              <div className="grid grid-cols-1 gap-4 justify-items-center w-full">
-                <Nav />
-                <RootNavigation />
-              </div>
-            </QueryClientProvider>
-          ) : (
+      <ThemeConfig dark={false} />
+
+      {isLoggedIn ? (
+        <QueryClientProvider client={client}>
+          <div className="h-dvh grid grid-rows-[auto_1fr]">
+            <header>
+              <Nav />
+            </header>
+            <main>
+              <RootNavigation />
+            </main>
+          </div>
+        </QueryClientProvider>
+      ) : (
+        <main>
+          <div className="w-screen flex justify-center items-center">
             <div className="w-full">
               <AuthNavigation />
             </div>
-          )}
-        </div>
-      </main>
+          </div>
+        </main>
+      )}
     </>
   );
 }

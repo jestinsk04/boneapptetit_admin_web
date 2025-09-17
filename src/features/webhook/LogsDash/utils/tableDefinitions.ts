@@ -1,4 +1,5 @@
 import { ColDef } from "ag-grid-community";
+import { RowFlags } from "../components/RowFlags";
 
 export const colDefs: ColDef[] = [
   {
@@ -7,6 +8,7 @@ export const colDefs: ColDef[] = [
     sortable: true,
     filter: true,
     width: 90,
+    sort: "desc",
   },
   {
     field: "createDate",
@@ -14,6 +16,10 @@ export const colDefs: ColDef[] = [
     sortable: true,
     filter: true,
     flex: 1,
+    valueFormatter: (params: { value: string }) => {
+      const date = new Date(params.value);
+      return isNaN(date.getTime()) ? "" : date.toLocaleString();
+    },
   },
   {
     field: "operation",
@@ -28,11 +34,10 @@ export const colDefs: ColDef[] = [
     sortable: true,
     filter: true,
     flex: 1,
-    cellRenderer: (params: { value: boolean }) =>
-      params.value ? "Success" : "Failed",
+    cellRenderer: RowFlags,
   },
   {
-    field: "objectID",
+    field: "objectId",
     headerName: "Object ID",
     sortable: true,
     filter: true,

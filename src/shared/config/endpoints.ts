@@ -15,13 +15,13 @@ export const EndpointsList = {
   },
   Webhook: {
     GetLogs: {
-      endpoint: "/webhook/logs",
+      endpoint: "/webhook/admin/logs",
     },
     GetConfig: {
-      endpoint: "/webhook/config",
+      endpoint: "/webhook/admin/config",
     },
     UpdateConfig: {
-      endpoint: "/webhook/config",
+      endpoint: "/webhook/admin/config",
     },
   },
 };
