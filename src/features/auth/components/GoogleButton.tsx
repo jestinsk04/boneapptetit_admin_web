@@ -3,6 +3,7 @@ import type { LoginUserData } from "@/shared/types/dto/login.dto";
 import { Button, createTheme, Spinner, ThemeProvider } from "flowbite-react";
 import { useCallback, useState } from "react";
 import { FaGoogle } from "react-icons/fa";
+import { toast } from "react-toastify";
 
 interface GoogleButtonProps {
   handleLogin: (user: LoginUserData) => void;
@@ -19,12 +20,13 @@ export const GoogleButton = ({ handleLogin }: GoogleButtonProps) => {
         handleLogin(response);
         console.log("¡Usuario ha iniciado sesión con Google!");
       } else {
-        alert("No se pudo iniciar sesión con Google");
+        toast.error("No se pudo iniciar sesión con Google");
       }
+      setLanding(false);
     } catch (error) {
+      setLanding(false);
       console.error("Error al iniciar sesión con Google:", error);
     }
-    setLanding(false);
   }, [handleLogin]);
 
   const theme = createTheme({
