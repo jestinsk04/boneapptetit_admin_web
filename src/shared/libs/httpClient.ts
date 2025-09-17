@@ -15,6 +15,10 @@ const restClient = axios.create({
   withCredentials: true,
 });
 
+export type IsVoidResponseType = {
+  status: number;
+};
+
 export function restApiHttpRequest<T>({
   endpoint,
   method = "get",
@@ -36,9 +40,10 @@ export function restApiHttpRequest<T>({
           });
         }
         const { data, status } = response;
+
         if (status === 200) {
           if (isResponseVoid) {
-            resolve();
+            resolve({ status: status || 500 } as T);
             return;
           }
           if (data) {
@@ -47,6 +52,10 @@ export function restApiHttpRequest<T>({
         }
       } catch (error) {
         if (axios.isAxiosError(error)) {
+          console.error("HTTP Request Error:", error.response || error.message);
+          if (isResponseVoid) {
+            resolve({ status: error.response?.status || 500 } as T);
+          }
           // Handle 404 error when searching for a shared hl resolving the
           // promise to avoid retries
           if (

@@ -6,4 +6,8 @@ export const webhookConfigSchema = yup.object().shape({
     .string()
     .required("Odoo Order Creation State is required"),
   syncOrderByStatus: yup.string().required("Sync Order By Status is required"),
+  odooCurrencyTypeId: yup
+    .number()
+    .required("Odoo Currency Type is required")
+    .moreThan(0, "Odoo Currency Type must be selected"),
 });

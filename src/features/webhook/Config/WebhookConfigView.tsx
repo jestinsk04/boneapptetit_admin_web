@@ -13,9 +13,10 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { webhookConfigSchema } from "./schemas";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { InputErrorMessage } from "@/shared/component/InputErrorMessage";
+import { WebhookCurrenciesDropdown } from "./components/WebhookCurrenciesDropdown";
 
 export const WebhookConfigView = () => {
-  const [landing, setLanding] = useState(true);
+  const [landing, setLanding] = useState(false);
   const { handleChangeViewName, currentViewName } =
     useOutletContext<LayoutOutletContext>();
   const [currentData, setCurrentData] = useState<webhookConfig | undefined>(
@@ -49,8 +50,10 @@ export const WebhookConfigView = () => {
   }, []);
 
   useEffect(() => {
-    handleFetchConfig();
-  }, [handleFetchConfig]);
+    if (!currentData && !landing) {
+      handleFetchConfig();
+    }
+  }, [handleFetchConfig, currentData, landing]);
 
   useLayoutEffect(() => {
     if (currentViewName !== "Webhook Configuration") {
@@ -69,6 +72,7 @@ export const WebhookConfigView = () => {
       id: currentData?.id || 0,
       odooOrderCreationState: currentData?.odooOrderCreationState || "",
       syncOrderByStatus: currentData?.syncOrderByStatus || "PAID",
+      odooCurrencyTypeId: currentData?.odooCurrencyTypeId || 0,
     },
   });
 
@@ -78,6 +82,10 @@ export const WebhookConfigView = () => {
 
   const handleChangeCreationState = (state: string) => {
     setValue("odooOrderCreationState", state);
+  };
+
+  const handleChangeCurrency = (currencyId: number) => {
+    setValue("odooCurrencyTypeId", currencyId);
   };
 
   return (
@@ -124,10 +132,16 @@ export const WebhookConfigView = () => {
                 }}
               >
                 <option value="PAID">PAID</option>
-                <option value="FULLFILLED">FULLFILLED</option>
-                <option value="PAID_AND_FULLFILLED">PAID AND FULLFILLED</option>
+                <option value="FULFILLED">FULFILLED</option>
+                <option value="PAID_AND_FULFILLED">PAID AND FULFILLED</option>
               </Select>
               <InputErrorMessage message={errors.syncOrderByStatus?.message} />
+            </div>
+            <div>
+              <WebhookCurrenciesDropdown
+                currentValue={watch("odooCurrencyTypeId")}
+                onSelect={handleChangeCurrency}
+              />
             </div>
             <div className="w-full flex justify-center mt-4">
               <Button color="green" disabled={landing} type="submit">

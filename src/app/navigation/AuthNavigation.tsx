@@ -2,12 +2,9 @@ import LoginView from "@/features/auth/LoginView";
 import { Route, Routes } from "react-router";
 
 export const AuthNavigation = () => {
-   return (
+  return (
     <Routes>
-        <Route path="/" element={<LoginView/>} />
-
+      <Route path="*" element={<LoginView />} />
     </Routes>
-   )
-}
-
-
+  );
+};

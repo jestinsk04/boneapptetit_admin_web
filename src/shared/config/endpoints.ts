@@ -23,5 +23,8 @@ export const EndpointsList = {
     UpdateConfig: {
       endpoint: "/webhook/admin/config",
     },
+    GetCurrencies: {
+      endpoint: "/webhook/admin/currencies",
+    },
   },
 };

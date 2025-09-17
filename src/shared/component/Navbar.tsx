@@ -8,15 +8,18 @@ import {
 } from "flowbite-react";
 import logo from "../../assets/logo.png"; // Adjust the path to your logo file
 import { useAuthStore, useAuthStoreActions } from "../../app/store/auth"; // Importa el estado de autenticación
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
+import { useCallback } from "react";
 
 export const Nav = () => {
   const removeSessionData = useAuthStoreActions().removeSessionData;
   const user = useAuthStore().email;
+  const navigation = useNavigate();
 
-  const handleLogout = async () => {
-    removeSessionData();
-  };
+  const handleLogout = useCallback(async () => {
+    await removeSessionData();
+    navigation("/login");
+  }, [removeSessionData, navigation]);
 
   return (
     <Navbar fluid className="w-full bg-[#f3e0be]">
