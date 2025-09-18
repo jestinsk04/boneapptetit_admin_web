@@ -9,7 +9,7 @@ export const RowFlags = ({ data }: RowFlagsParams) => (
     {
       <img
         src={`https://www.ag-grid.com/example-assets/icons/${
-          data.operationStatus ? "tick-in-circle" : "cross-in-circle"
+          data.operationStatus === "ERROR" ? "cross-in-circle" : "tick-in-circle"
         }.png`}
         className="missionIcon"
       />

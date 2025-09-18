@@ -1,8 +1,8 @@
 export interface webhookLogs {
-  id: string;
+  id: number;
   createDate: string;
   operation: string;
-  operationStatus: boolean;
+  operationStatus: string;
   objectID: number;
 }
 

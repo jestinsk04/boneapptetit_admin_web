@@ -1,4 +1,4 @@
-import { useCallback, useLayoutEffect } from "react";
+import { useCallback, useLayoutEffect, useMemo } from "react";
 import { AgGridReact } from "ag-grid-react";
 import { colDefs } from "./utils/tableDefinitions";
 import { AG_GRID_LOCALE_ES_MX } from "@/shared/libs/ag-grid-es";
@@ -6,10 +6,12 @@ import { agGridTheme } from "@/shared/ui/ag-grid-theme";
 import { Card } from "flowbite-react";
 import { webhookService } from "@/shared/services/webhook.service";
 import { useQuery } from "@tanstack/react-query";
-import { GridReadyEvent } from "ag-grid-community";
+import { GridOptions, GridReadyEvent } from "ag-grid-community";
 import { webhookLogs } from "@/shared/types/dto/webhook.dto";
 import { useOutletContext } from "react-router";
 import { LayoutOutletContext } from "@/shared/types/components/Layout";
+import { ReintentButton } from "./components/ReintentButton";
+import { toast } from "react-toastify";
 
 export const WebhookLogsView = () => {
   const { handleChangeViewName, currentViewName } =
@@ -26,6 +28,32 @@ export const WebhookLogsView = () => {
     initialData: [],
     enabled: false, // Evita que se ejecute automáticamente al montar
   });
+
+  const handleReintent = useCallback(
+    async (data: webhookLogs) => {
+      const res = await webhookService.ReintentLog(data.id);
+      if (res) {
+        toast.success(`Reintento de orden ${data.operation} exitoso`);
+        await refetchGridData();
+      } else {
+        toast.error(`Error al reintentar orden ${data.operation}`);
+      }
+    },
+    [refetchGridData]
+  );
+
+  const gridOptions: GridOptions = useMemo(() => {
+    return {
+      columnTypes: {
+        menuColumn: {
+          cellRenderer: ReintentButton,
+          cellRendererParams: {
+            handleReintent,
+          },
+        },
+      },
+    };
+  }, [handleReintent]);
 
   const handleGridReady = useCallback(
     async (params: GridReadyEvent) => {
@@ -66,6 +94,7 @@ export const WebhookLogsView = () => {
             paginationPageSizeSelector={[50, 100, 200]}
             className="text-sm"
             onGridReady={handleGridReady}
+            gridOptions={gridOptions}
           />
         </div>
       </Card>

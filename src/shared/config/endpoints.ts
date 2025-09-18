@@ -26,5 +26,8 @@ export const EndpointsList = {
     GetCurrencies: {
       endpoint: "/webhook/admin/currencies",
     },
+    ReintentLog: {
+      endpoint: "/webhook/admin/reintent",
+    },
   },
 };

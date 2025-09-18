@@ -72,9 +72,25 @@ const GetCurrencies = async (): Promise<webhookCurrencies[]> => {
   }
 };
 
+const ReintentLog = async (id: number): Promise<boolean> => {
+  try {
+    const res = await restApiHttpRequest<IsVoidResponseType>({
+      endpoint: `${EndpointsList.Webhook.ReintentLog.endpoint}/${id}`,
+      method: "put",
+      isResponseVoid: true,
+    });
+    if (res === undefined || res.status !== 200) return false;
+    return true;
+  } catch (error) {
+    console.error(error);
+    return false;
+  }
+};
+
 export const webhookService = {
   GetLogs,
   GetConfig,
   UpdateConfig,
   GetCurrencies,
+  ReintentLog,
 };

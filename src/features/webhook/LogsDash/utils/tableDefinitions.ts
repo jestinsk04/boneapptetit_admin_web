@@ -43,4 +43,14 @@ export const colDefs: ColDef[] = [
     filter: true,
     flex: 1,
   },
+  {
+    colId: "menu",
+    type: "menuColumn",
+    cellStyle: { overflow: "visible", zIndex: "auto" },
+    suppressSizeToFit: true,
+    maxWidth: 80,
+    onCellClicked: () => {
+      return false;
+    },
+  },
 ];
