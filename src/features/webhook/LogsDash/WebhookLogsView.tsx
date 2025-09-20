@@ -1,4 +1,4 @@
-import { useCallback, useLayoutEffect, useMemo } from "react";
+import { useCallback, useLayoutEffect, useMemo, useState } from "react";
 import { AgGridReact } from "ag-grid-react";
 import { colDefs } from "./utils/tableDefinitions";
 import { AG_GRID_LOCALE_ES_MX } from "@/shared/libs/ag-grid-es";
@@ -17,6 +17,9 @@ export const WebhookLogsView = () => {
   const { handleChangeViewName, currentViewName } =
     useOutletContext<LayoutOutletContext>();
 
+  // Estado para el filtro
+  const [filterStatus, setFilterStatus] = useState<'ALL' | 'SUCCESS' | 'ERROR'>('ALL');
+
   useLayoutEffect(() => {
     if (currentViewName !== "Webhook Logs") {
       handleChangeViewName("Webhook Logs");
@@ -28,6 +31,14 @@ export const WebhookLogsView = () => {
     initialData: [],
     enabled: false, // Evita que se ejecute automáticamente al montar
   });
+
+  // Filtrar los datos según el filtro seleccionado
+  const filteredGridData = useMemo(() => {
+    if (filterStatus === 'ALL') return gridData;
+    if (filterStatus === 'SUCCESS') return gridData.filter((log: webhookLogs) => log.operationStatus === 'SUCCESS');
+    if (filterStatus === 'ERROR') return gridData.filter((log: webhookLogs) => log.operationStatus !== 'SUCCESS');
+    return gridData;
+  }, [gridData, filterStatus]);
 
   const handleReintent = useCallback(
     async (data: webhookLogs) => {
@@ -70,24 +81,43 @@ export const WebhookLogsView = () => {
         <Card className="flex-1 text-center max-w-sm">
           <div className="text-lg font-semibold">Total Sync</div>
           <div className="text-xl">
-            {gridData.filter((log: webhookLogs) => log.operationStatus)
-              .length || 0}
+            {gridData.filter((log: webhookLogs) => log.operationStatus === 'SUCCESS').length || 0}
           </div>
         </Card>
         <Card className="flex-1 text-center max-w-sm">
           <div className="text-lg font-semibold">Total Not Sync</div>
           <div className="text-xl">
-            {gridData.filter((log: webhookLogs) => !log.operationStatus)
-              .length || 0}
+            {gridData.filter((log: webhookLogs) => log.operationStatus !== 'SUCCESS').length || 0}
           </div>
         </Card>
+      </div>
+      {/* Filtros por botones */}
+      <div className="flex gap-4 mb-4 justify-center">
+        <button
+          className={`px-4 py-2 rounded ${filterStatus === 'ALL' ? 'bg-blue-600 text-white' : 'bg-gray-200'}`}
+          onClick={() => setFilterStatus('ALL')}
+        >
+          All
+        </button>
+        <button
+          className={`px-4 py-2 rounded ${filterStatus === 'SUCCESS' ? 'bg-green-600 text-white' : 'bg-gray-200'}`}
+          onClick={() => setFilterStatus('SUCCESS')}
+        >
+          Success
+        </button>
+        <button
+          className={`px-4 py-2 rounded ${filterStatus === 'ERROR' ? 'bg-red-600 text-white' : 'bg-gray-200'}`}
+          onClick={() => setFilterStatus('ERROR')}
+        >
+          Error
+        </button>
       </div>
       <Card>
         <div className="w-full h-[40rem]">
           <AgGridReact
             localeText={AG_GRID_LOCALE_ES_MX}
             theme={agGridTheme}
-            rowData={gridData}
+            rowData={filteredGridData}
             columnDefs={colDefs}
             pagination={true}
             paginationPageSize={50}

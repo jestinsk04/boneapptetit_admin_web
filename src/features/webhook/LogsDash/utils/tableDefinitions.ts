@@ -29,19 +29,19 @@ export const colDefs: ColDef[] = [
     flex: 1,
   },
   {
+    field: "objectId",
+    headerName: "Object ID",
+    sortable: true,
+    filter: true,
+    flex: 1,
+  },
+  {
     field: "operationStatus",
     headerName: "Operation Status",
     sortable: true,
     filter: true,
     flex: 1,
     cellRenderer: RowFlags,
-  },
-  {
-    field: "objectId",
-    headerName: "Object ID",
-    sortable: true,
-    filter: true,
-    flex: 1,
   },
   {
     colId: "menu",

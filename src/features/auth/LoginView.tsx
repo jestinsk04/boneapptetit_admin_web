@@ -3,9 +3,11 @@ import { GoogleButton } from "./components/GoogleButton";
 import type { LoginUserData } from "@/shared/types/dto/login.dto";
 import { useAuthStoreActions } from "@/app/store/auth";
 import Logo from "../../assets/logo.png"; // 👈 tu logo aquí
+import { useNavigate } from "react-router";
 
 const LoginView = () => {
   const setUserData = useAuthStoreActions().setUserData;
+  const navigate = useNavigate();
 
   const handleLogin = useCallback(
     (user: LoginUserData) => {
@@ -13,15 +15,14 @@ const LoginView = () => {
         displayName: user.displayName,
         email: user.email,
       });
+      navigate("/");
     },
-    [setUserData]
+    [setUserData, navigate]
   );
 
   return (
-    
     <div className="flex items-center justify-center min-h-screen bg-[#f3e0be]">
       <div className="shadow-xl rounded-2xl p-8 w-full max-w-md text-center bg-white">
-        
         {/* Logo */}
         <img
           src={Logo}

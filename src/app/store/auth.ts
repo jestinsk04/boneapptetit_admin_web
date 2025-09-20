@@ -19,7 +19,7 @@ type AuthStoreType = AuthStoreState & AuthStoreActions;
 // Create a Zustand store for authentication state management
 export const AuthStore = createStore<AuthStoreType>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       email: "",
       displayName: "",
       isLoggedIn: false,
@@ -30,7 +30,8 @@ export const AuthStore = createStore<AuthStoreType>()(
           isLoggedIn: true,
         }),
       removeSessionData: async () => {
-        await logoutEverywhere();
+        if (!get().isLoggedIn) return;
+        await logoutEverywhere(get().isLoggedIn ?? false);
         set({
           displayName: "",
           email: "",
