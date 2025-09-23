@@ -24,8 +24,21 @@ export const PaymentsMethodsDropdown = ({
   onSelected,
 }: PaymentsMethodsDropdownProps) => {
   const theme = createTheme({
+    dropdown: {
+      arrowIcon: "h-6 w-6 text-gray-500",
+      floating: {
+        target: "w-full",
+      },
+    },
     button: {
-      base: "relative flex items-center justify-between rounded-lg text-left font-medium focus:outline-none focus:ring-4",
+      size: {
+        md: "h-10 px-2 text-sm",
+      },
+      base: "relative flex items-center justify-between rounded-lg text-left font-normal focus:outline-none focus:ring-4",
+      color: {
+        light:
+          "border border-gray-300 bg-gray-50 text-gray-900 hover:bg-gray-50 focus:ring-gray-100",
+      },
     },
   });
 
