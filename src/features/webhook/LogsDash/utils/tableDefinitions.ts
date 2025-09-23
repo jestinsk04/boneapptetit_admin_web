@@ -9,6 +9,14 @@ export const colDefs: ColDef[] = [
     filter: true,
     width: 90,
     sort: "desc",
+    hide: true,
+  },
+  {
+    field: "operation",
+    headerName: "Operation",
+    sortable: true,
+    filter: true,
+    flex: 1,
   },
   {
     field: "createDate",
@@ -22,13 +30,6 @@ export const colDefs: ColDef[] = [
     },
   },
   {
-    field: "operation",
-    headerName: "Operation",
-    sortable: true,
-    filter: true,
-    flex: 1,
-  },
-  {
     field: "objectId",
     headerName: "Object ID",
     sortable: true,
@@ -36,8 +37,15 @@ export const colDefs: ColDef[] = [
     flex: 1,
   },
   {
+    field: "description",
+    headerName: "Description",
+    tooltipValueGetter: (p) => (p.value === "" ? undefined : p.value),
+    valueFormatter: (p) => (p.value === "" ? "Sin errores" : p.value),
+    cellStyle: (p) => (p.value !== "" ? { color: "red" } : null),
+  },
+  {
     field: "operationStatus",
-    headerName: "Operation Status",
+    headerName: "Status",
     sortable: true,
     filter: true,
     flex: 1,

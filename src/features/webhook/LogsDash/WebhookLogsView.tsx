@@ -3,7 +3,7 @@ import { AgGridReact } from "ag-grid-react";
 import { colDefs } from "./utils/tableDefinitions";
 import { AG_GRID_LOCALE_ES_MX } from "@/shared/libs/ag-grid-es";
 import { agGridTheme } from "@/shared/ui/ag-grid-theme";
-import { Card } from "flowbite-react";
+import { Button, Card } from "flowbite-react";
 import { webhookService } from "@/shared/services/webhook.service";
 import { useQuery } from "@tanstack/react-query";
 import { GridOptions, GridReadyEvent } from "ag-grid-community";
@@ -12,13 +12,18 @@ import { useOutletContext } from "react-router";
 import { LayoutOutletContext } from "@/shared/types/components/Layout";
 import { ReintentButton } from "./components/ReintentButton";
 import { toast } from "react-toastify";
+import { SearchBox } from "@/shared/component/SearchBox";
+import { FaRotateRight } from "react-icons/fa6";
 
 export const WebhookLogsView = () => {
   const { handleChangeViewName, currentViewName } =
     useOutletContext<LayoutOutletContext>();
+  const [searchArgument, setSearchArgument] = useState<string>("");
 
   // Estado para el filtro
-  const [filterStatus, setFilterStatus] = useState<'ALL' | 'SUCCESS' | 'ERROR'>('ALL');
+  const [filterStatus, setFilterStatus] = useState<"ALL" | "SUCCESS" | "ERROR">(
+    "ALL"
+  );
 
   useLayoutEffect(() => {
     if (currentViewName !== "Webhook Logs") {
@@ -34,9 +39,15 @@ export const WebhookLogsView = () => {
 
   // Filtrar los datos según el filtro seleccionado
   const filteredGridData = useMemo(() => {
-    if (filterStatus === 'ALL') return gridData;
-    if (filterStatus === 'SUCCESS') return gridData.filter((log: webhookLogs) => log.operationStatus === 'SUCCESS');
-    if (filterStatus === 'ERROR') return gridData.filter((log: webhookLogs) => log.operationStatus !== 'SUCCESS');
+    if (filterStatus === "ALL") return gridData;
+    if (filterStatus === "SUCCESS")
+      return gridData.filter(
+        (log: webhookLogs) => log.operationStatus === "SUCCESS"
+      );
+    if (filterStatus === "ERROR")
+      return gridData.filter(
+        (log: webhookLogs) => log.operationStatus !== "SUCCESS"
+      );
     return gridData;
   }, [gridData, filterStatus]);
 
@@ -59,7 +70,7 @@ export const WebhookLogsView = () => {
         menuColumn: {
           cellRenderer: ReintentButton,
           cellRendererParams: {
-            handleReintent,
+            onClick: handleReintent,
           },
         },
       },
@@ -74,6 +85,8 @@ export const WebhookLogsView = () => {
     [refetchGridData]
   );
 
+  const handleSearchArgument = (text: string) => setSearchArgument(text);
+
   return (
     <>
       {/* Dashboard */}
@@ -81,38 +94,52 @@ export const WebhookLogsView = () => {
         <Card className="flex-1 text-center max-w-sm">
           <div className="text-lg font-semibold">Total Sync</div>
           <div className="text-xl">
-            {gridData.filter((log: webhookLogs) => log.operationStatus === 'SUCCESS').length || 0}
+            {gridData.filter(
+              (log: webhookLogs) => log.operationStatus === "SUCCESS"
+            ).length || 0}
           </div>
         </Card>
         <Card className="flex-1 text-center max-w-sm">
           <div className="text-lg font-semibold">Total Not Sync</div>
           <div className="text-xl">
-            {gridData.filter((log: webhookLogs) => log.operationStatus !== 'SUCCESS').length || 0}
+            {gridData.filter(
+              (log: webhookLogs) => log.operationStatus !== "SUCCESS"
+            ).length || 0}
           </div>
         </Card>
       </div>
-      {/* Filtros por botones */}
-      <div className="flex gap-4 mb-4 justify-center">
-        <button
-          className={`px-4 py-2 rounded ${filterStatus === 'ALL' ? 'bg-blue-600 text-white' : 'bg-gray-200'}`}
-          onClick={() => setFilterStatus('ALL')}
-        >
-          All
-        </button>
-        <button
-          className={`px-4 py-2 rounded ${filterStatus === 'SUCCESS' ? 'bg-green-600 text-white' : 'bg-gray-200'}`}
-          onClick={() => setFilterStatus('SUCCESS')}
-        >
-          Success
-        </button>
-        <button
-          className={`px-4 py-2 rounded ${filterStatus === 'ERROR' ? 'bg-red-600 text-white' : 'bg-gray-200'}`}
-          onClick={() => setFilterStatus('ERROR')}
-        >
-          Error
-        </button>
-      </div>
       <Card>
+        {/* Filtros por botones */}
+        <div className="flex justify-between">
+          <div className="flex gap-4 justify-left">
+            <Button
+              color={filterStatus === "ALL" ? "blue" : "light"}
+              onClick={() => setFilterStatus("ALL")}
+            >
+              All
+            </Button>
+            <Button
+              color={filterStatus === "SUCCESS" ? "green" : "light"}
+              onClick={() => setFilterStatus("SUCCESS")}
+            >
+              Success
+            </Button>
+            <Button
+              color={filterStatus === "ERROR" ? "red" : "light"}
+              onClick={() => setFilterStatus("ERROR")}
+            >
+              Error
+            </Button>
+          </div>
+          <div className="flex justify-between gap-4">
+            <Button color={"gray"} onClick={() => refetchGridData()}>
+              <FaRotateRight className="mr-2" />
+              Refresh
+            </Button>
+            <SearchBox handleSearchArgument={handleSearchArgument} />
+          </div>
+        </div>
+
         <div className="w-full h-[40rem]">
           <AgGridReact
             localeText={AG_GRID_LOCALE_ES_MX}
@@ -125,6 +152,8 @@ export const WebhookLogsView = () => {
             className="text-sm"
             onGridReady={handleGridReady}
             gridOptions={gridOptions}
+            quickFilterText={searchArgument}
+            tooltipShowDelay={0}
           />
         </div>
       </Card>
