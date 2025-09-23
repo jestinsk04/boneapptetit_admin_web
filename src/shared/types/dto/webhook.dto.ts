@@ -11,6 +11,7 @@ export interface webhookConfig {
   odooOrderCreationState: string;
   syncOrderByStatus: string;
   odooCurrencyTypeId: number;
+  paymentMethods: string;
   createAt: string;
   updateAt: string;
 }
@@ -25,6 +26,7 @@ export type updateWebhookConfigRequest = {
   odooOrderCreationState: string;
   syncOrderByStatus: string;
   odooCurrencyTypeId: number;
+  paymentMethods: string
 };
 
 export type webhookCurrencies = {

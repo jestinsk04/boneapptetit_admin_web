@@ -27,7 +27,7 @@ export async function loginWithGoogle(): Promise<undefined | LoginUserData> {
   const cred = await signInWithPopup(auth, provider);
   const tokenID = await cred.user.getIdToken(/* forceRefresh */ true);
 
-  if (!cred.user) return;
+  if (!cred.user) return undefined;
 
   const response = await loginService.Login(tokenID);
 
@@ -35,7 +35,7 @@ export async function loginWithGoogle(): Promise<undefined | LoginUserData> {
   if (!response) {
     await signOut(auth); // limpia sesión del cliente
     console.error("acceso denegado");
-    return;
+    return undefined;
   }
 
   const user: LoginUserData = {

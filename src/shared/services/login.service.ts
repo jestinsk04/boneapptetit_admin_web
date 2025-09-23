@@ -1,9 +1,9 @@
 import { EndpointsList } from "../config/endpoints";
-import { restApiHttpRequest } from "../libs/httpClient";
+import { IsVoidResponseType, restApiHttpRequest } from "../libs/httpClient";
 
 const Login = async (tokenID: string): Promise<boolean> => {
   try {
-    await restApiHttpRequest({
+    const res = await restApiHttpRequest<IsVoidResponseType>({
       endpoint: EndpointsList.Login.Login.endpoint,
       method: "post",
       body: {
@@ -11,7 +11,7 @@ const Login = async (tokenID: string): Promise<boolean> => {
       },
       isResponseVoid: true,
     });
-
+    if (res?.status !== 200) return false;
     return true;
   } catch (error) {
     console.error(error);
@@ -21,13 +21,14 @@ const Login = async (tokenID: string): Promise<boolean> => {
 
 const ValidateSession = async (): Promise<boolean> => {
   try {
-    await restApiHttpRequest({
+    const res = await restApiHttpRequest<IsVoidResponseType>({
       endpoint: EndpointsList.Login.ValidateSession.endpoint,
       method: "post",
       body: {},
       isResponseVoid: true,
     });
 
+    if (res?.status !== 200) return false;
     return true;
   } catch (error) {
     console.error(error);

@@ -14,6 +14,7 @@ import { webhookConfigSchema } from "./schemas";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { InputErrorMessage } from "@/shared/component/InputErrorMessage";
 import { WebhookCurrenciesDropdown } from "./components/WebhookCurrenciesDropdown";
+import { PaymentsMethodsDropdown } from "./components/PaymentsMethdsDropdown";
 
 export const WebhookConfigView = () => {
   const [landing, setLanding] = useState(false);
@@ -73,8 +74,11 @@ export const WebhookConfigView = () => {
       odooOrderCreationState: currentData?.odooOrderCreationState || "",
       syncOrderByStatus: currentData?.syncOrderByStatus || "PAID",
       odooCurrencyTypeId: currentData?.odooCurrencyTypeId || 0,
+      paymentMethods: currentData?.paymentMethods || "",
     },
   });
+
+  const paymentMethods = watch("paymentMethods");
 
   const handleChangeSyncOrderByStatus = (type: syncOrderByStatusType) => {
     setValue("syncOrderByStatus", type);
@@ -88,6 +92,19 @@ export const WebhookConfigView = () => {
     setValue("odooCurrencyTypeId", currencyId);
   };
 
+  const handleSelectedPaymentMethod = useCallback(
+    (method: string) => {
+      let updatedMethods = paymentMethods.split(",");
+      if (updatedMethods.includes(method)) {
+        updatedMethods = updatedMethods.filter((m) => m !== method);
+      } else {
+        updatedMethods.push(method);
+      }
+      setValue("paymentMethods", updatedMethods.join(","));
+    },
+    [paymentMethods, setValue]
+  );
+
   return (
     <div className="w-full flex justify-center items-center">
       <div className="min-w-md grid grid-cols-1 gap-4">
@@ -96,7 +113,10 @@ export const WebhookConfigView = () => {
             Webhook Configuration
           </div>
           {/* Configuration form will go here */}
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="grid grid-cols-1 gap-4"
+          >
             <div>
               <div className="mb-2 block">
                 <Label htmlFor="odooOrderCreationState">
@@ -141,6 +161,12 @@ export const WebhookConfigView = () => {
               <WebhookCurrenciesDropdown
                 currentValue={watch("odooCurrencyTypeId")}
                 onSelect={handleChangeCurrency}
+              />
+            </div>
+            <div>
+              <PaymentsMethodsDropdown
+                currentValue={paymentMethods}
+                onSelected={handleSelectedPaymentMethod}
               />
             </div>
             <div className="w-full flex justify-center mt-4">

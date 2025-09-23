@@ -39,7 +39,7 @@ export const WebhookCurrenciesDropdown = ({
 
   return (
     <>
-      <div>
+      <div className="mb-2 block">
         <Label htmlFor="currency">Currency</Label>
       </div>
       <Select

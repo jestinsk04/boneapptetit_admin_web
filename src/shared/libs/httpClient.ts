@@ -43,7 +43,7 @@ export function restApiHttpRequest<T>({
 
         if (status === 200) {
           if (isResponseVoid) {
-            resolve({ status: status || 500 } as T);
+            resolve({ status: status } as T);
             return;
           }
           if (data) {

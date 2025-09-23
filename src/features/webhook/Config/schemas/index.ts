@@ -10,4 +10,5 @@ export const webhookConfigSchema = yup.object().shape({
     .number()
     .required("Odoo Currency Type is required")
     .moreThan(0, "Odoo Currency Type must be selected"),
+  paymentMethods: yup.string().required("Payment Methods is required"),
 });
