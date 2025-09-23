@@ -43,7 +43,6 @@ export const Nav = () => {
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-expect-error
           to="/"
-          active
         >
           Home
         </NavbarLink>

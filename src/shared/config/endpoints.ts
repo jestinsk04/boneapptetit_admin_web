@@ -1,5 +1,5 @@
 export const API_HOST =
-  import.meta.env.VITE_API_HOST || "http://localhost:8080";
+  import.meta.env.VITE_API_HOST || "https://boneappetit-food-webhook-341937476244.us-central1.run.app";
 
 export const EndpointsList = {
   Login: {
