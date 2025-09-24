@@ -16,6 +16,8 @@ export interface webhookConfig {
   updateAt: string;
 }
 
+export type odooOrderCreationStateType = "CONFIRMED" | "UNCONFIRMED";
+
 export type syncOrderByStatusType =
   | "PAID"
   | "FULLFILLED"
@@ -26,7 +28,7 @@ export type updateWebhookConfigRequest = {
   odooOrderCreationState: string;
   syncOrderByStatus: string;
   odooCurrencyTypeId: number;
-  paymentMethods: string
+  paymentMethods: string;
 };
 
 export type webhookCurrencies = {

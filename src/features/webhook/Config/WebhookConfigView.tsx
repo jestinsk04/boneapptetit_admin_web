@@ -1,6 +1,7 @@
 import { webhookService } from "@/shared/services/webhook.service";
 import { LayoutOutletContext } from "@/shared/types/components/Layout";
 import {
+  odooOrderCreationStateType,
   syncOrderByStatusType,
   updateWebhookConfigRequest,
   webhookConfig,
@@ -71,7 +72,8 @@ export const WebhookConfigView = () => {
     resolver: yupResolver(webhookConfigSchema),
     values: {
       id: currentData?.id || 0,
-      odooOrderCreationState: currentData?.odooOrderCreationState || "",
+      odooOrderCreationState:
+        currentData?.odooOrderCreationState || "CONFIRMED",
       syncOrderByStatus: currentData?.syncOrderByStatus || "PAID",
       odooCurrencyTypeId: currentData?.odooCurrencyTypeId || 0,
       paymentMethods: currentData?.paymentMethods || "",
@@ -84,7 +86,7 @@ export const WebhookConfigView = () => {
     setValue("syncOrderByStatus", type);
   };
 
-  const handleChangeCreationState = (state: string) => {
+  const handleChangeCreationState = (state: odooOrderCreationStateType) => {
     setValue("odooOrderCreationState", state);
   };
 
@@ -128,11 +130,13 @@ export const WebhookConfigView = () => {
                 required
                 value={watch("odooOrderCreationState")}
                 onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
-                  const value = e.target.value as string;
-                  handleChangeCreationState(value);
+                  handleChangeCreationState(
+                    e.target.value as odooOrderCreationStateType
+                  );
                 }}
               >
-                <option value="DRAFT">DRAFT</option>
+                <option value="CONFIRMED">CONFIRMED</option>
+                <option value="UNCONFIRMED">UNCONFIRMED</option>
               </Select>
               <InputErrorMessage
                 message={errors.odooOrderCreationState?.message}
