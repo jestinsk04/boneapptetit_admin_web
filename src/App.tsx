@@ -1,29 +1,56 @@
-import { Button, ThemeConfig } from "flowbite-react";
-import LoginView from "./features/auth/LoginView";
-import { useAuthStore, useAuthStoreActions } from "./app/store/auth";
-import './App.css';
+import { useAuthStore } from "./app/store/auth";
+import "./App.css";
+import { Nav } from "./shared/component/Navbar";
+import { AuthNavigation } from "./app/navigation/AuthNavigation";
+import { RootNavigation } from "./app/navigation/RootNavigation";
+import { useState } from "react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { AllCommunityModule, ModuleRegistry } from "ag-grid-community";
+import { ThemeConfig } from "flowbite-react";
+import { ToastContainer } from "react-toastify";
+
+// Registrar módulos (obligatorio en v33+)clear
+ModuleRegistry.registerModules([AllCommunityModule]);
 
 function App() {
-  const removeSessionData = useAuthStoreActions().removeSessionData;
   const isLoggedIn = useAuthStore().isLoggedIn;
-  const user = useAuthStore().email;
 
-  const handleLogout = async () => {
-    removeSessionData();
-  };
+  // Create a new QueryClient instance
+  const [client] = useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            refetchOnWindowFocus: false,
+          },
+        },
+      })
+  );
 
   return (
     <>
-      <div className="w-screen flex justify-center items-center">
-        {isLoggedIn ? (
-          <div className="grid grid-cols-1 gap-4 justify-items-center">
-            <p>¡Hola, {user}!</p>
-            <Button onClick={handleLogout}>Cerrar sesión</Button>
+      <ThemeConfig dark={false} />
+      <ToastContainer />
+      {isLoggedIn ? (
+        <QueryClientProvider client={client}>
+          <div className="h-dvh grid grid-rows-[auto_1fr]">
+            <header>
+              <Nav />
+            </header>
+            <main>
+              <RootNavigation />
+            </main>
           </div>
-        ) : (
-          <LoginView />
-        )}
-      </div>
+        </QueryClientProvider>
+      ) : (
+        <main>
+          <div className="w-screen flex justify-center items-center">
+            <div className="w-full">
+              <AuthNavigation />
+            </div>
+          </div>
+        </main>
+      )}
     </>
   );
 }
