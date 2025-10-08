@@ -11,6 +11,7 @@ const Login = async (tokenID: string): Promise<boolean> => {
       },
       isResponseVoid: true,
     });
+    console.log(res);
     if (res?.status !== 200) return false;
     return true;
   } catch (error) {

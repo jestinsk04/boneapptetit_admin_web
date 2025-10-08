@@ -11,9 +11,12 @@ import { useAuthStore, useAuthStoreActions } from "../../app/store/auth"; // Imp
 import { Link, useNavigate } from "react-router";
 import { useCallback, useState } from "react";
 import { FaArrowRightToBracket } from "react-icons/fa6";
+import { useBCVTasaStore } from "@/app/store/bcv";
+import { currencyFormat } from "../utils/helpers";
 
 export const Nav = () => {
   const [isLogout, setIsLogout] = useState(false);
+  const { tasa } = useBCVTasaStore();
   const removeSessionData = useAuthStoreActions().removeSessionData;
   const user = useAuthStore().email;
   const navigation = useNavigate();
@@ -62,7 +65,18 @@ export const Nav = () => {
         >
           Webhook Logs
         </NavbarLink>
+        <NavbarLink
+          as={Link}
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-expect-error
+          to="/orders/manual"
+        >
+          Manual Orders
+        </NavbarLink>
       </NavbarCollapse>
+      <span className="">
+        Tasa BCV: {currencyFormat.format(tasa.amount) ?? 0}
+      </span>
       <Button
         disabled={isLogout}
         onClick={handleLogout}
