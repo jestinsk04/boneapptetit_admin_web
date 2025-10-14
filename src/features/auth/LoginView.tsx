@@ -14,6 +14,7 @@ const LoginView = () => {
       setUserData({
         displayName: user.displayName,
         email: user.email,
+        isAdmin: user.isAdmin,
       });
       navigate("/");
     },

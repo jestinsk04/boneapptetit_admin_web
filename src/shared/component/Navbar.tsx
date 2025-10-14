@@ -28,7 +28,7 @@ export const Nav = () => {
   }, [removeSessionData, navigation]);
 
   return (
-    <Navbar fluid className="w-full bg-[#f3e0be] border-b border-gray-300">
+    <Navbar fluid className="w-full bg-bone-beige border-b border-gray-300">
       <NavbarBrand
         as={Link}
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -74,17 +74,20 @@ export const Nav = () => {
           Manual Orders
         </NavbarLink>
       </NavbarCollapse>
-      <span className="">
-        Tasa BCV: {currencyFormat.format(tasa.amount) ?? 0}
-      </span>
-      <Button
-        disabled={isLogout}
-        onClick={handleLogout}
-        className="m-0 bg-[#ff7340] hover:bg-[#e66a38] focus:ring-[#ff7340] focus:ring-4 gap-1"
-      >
-        <FaArrowRightToBracket />
-        Cerrar sesión
-      </Button>
+      <div className="flex justify-end items-center gap-2">
+        <span className="border-r-1 pr-2">
+          Tasa BCV: {currencyFormat.format(tasa.amount) ?? 0}
+        </span>
+        <Button
+        size="sm"
+          disabled={isLogout}
+          onClick={handleLogout}
+          className="m-0 bg-[#ff7340] hover:bg-[#e66a38] focus:ring-[#ff7340] focus:ring-4 gap-1"
+        >
+          <FaArrowRightToBracket />
+          Cerrar sesión
+        </Button>
+      </div>
     </Navbar>
   );
 };

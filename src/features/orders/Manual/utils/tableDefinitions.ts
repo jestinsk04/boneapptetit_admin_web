@@ -1,4 +1,5 @@
 import { ColDef } from "ag-grid-community";
+import { BillImageLink } from "../components/billImageLink";
 
 export const colDefs: ColDef[] = [
   {
@@ -11,14 +12,36 @@ export const colDefs: ColDef[] = [
     },
   },
   {
+    field: "validateStatus",
+    headerName: "Status",
+    flex: 1,
+    type: "statusColumn",
+    cellStyle: (params) => {
+      if (params.value === "PENDING") {
+        return { color: "yellow" };
+      }
+      if (params.value === "COMPLETED") {
+        return { color: "green" };
+      }
+      return { color: "red" };
+    },
+  },
+  {
     field: "orderName",
     headerName: "Order Name",
     flex: 1,
+    pinned: "left",
   },
   {
     field: "paymentMethod.name",
     headerName: "Payment Method",
     flex: 1,
+  },
+  {
+    field: "billImageUrl",
+    headerName: "Bill Image",
+    flex: 1,
+    cellRenderer: BillImageLink,
   },
   {
     field: "orderTotalAmount",
@@ -31,11 +54,10 @@ export const colDefs: ColDef[] = [
     flex: 1,
   },
   {
-    field: "validateStatus",
-    headerName: "Status",
+    field: "requiresChange",
+    headerName: "Vuelto?",
     flex: 1,
-    type: "statusColumn",
-    cellStyle: { overflow: "visible", zIndex: "auto" },
+    valueFormatter: (params) => (params.value ? "Yes" : "No"),
   },
   {
     colId: "menu",
@@ -43,6 +65,7 @@ export const colDefs: ColDef[] = [
     cellStyle: { overflow: "visible", zIndex: "auto" },
     suppressSizeToFit: true,
     maxWidth: 80,
+    pinned: "right",
     onCellClicked: () => {
       return false;
     },

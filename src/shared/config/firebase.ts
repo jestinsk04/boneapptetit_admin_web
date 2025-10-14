@@ -41,6 +41,7 @@ export async function loginWithGoogle(): Promise<undefined | LoginUserData> {
   const user: LoginUserData = {
     displayName: cred.user.displayName || "",
     email: cred.user.email || "",
+    isAdmin: response.isAdmin,
   };
 
   return user;

@@ -39,10 +39,13 @@ export const EndpointsList = {
       endpoint: "/orders/manual",
     },
     UpdateManualOrderStatus: {
-      endpoint: "/orders/manual/status",
+      endpoint: "/orders/manual",
     },
     SendChangePaid: {
       endpoint: "/orders/change-paid",
+    },
+    GetPaymentMethods: {
+      endpoint: "/orders/payment-methods",
     },
   },
 };

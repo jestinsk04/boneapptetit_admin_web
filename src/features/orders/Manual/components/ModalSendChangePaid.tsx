@@ -2,11 +2,14 @@ import { InputErrorMessage } from "@/shared/component/InputErrorMessage";
 import { ChangePaidRequest, ManualOrder } from "@/shared/types/dto/orders.dto";
 import {
   Button,
+  createTheme,
   HelperText,
   Label,
   Modal,
   ModalBody,
   ModalHeader,
+  TabItem,
+  Tabs,
   TextInput,
   ThemeProvider,
 } from "flowbite-react";
@@ -18,6 +21,8 @@ import { ordersService } from "@/shared/services/orders.service";
 import { useBCVTasaStore } from "@/app/store/bcv";
 import { currencyFormat } from "@/shared/utils/helpers";
 import { FaArrowsRotate } from "react-icons/fa6";
+import { PaymentUserData } from "./PaymentUserData";
+import { useAuthStore } from "@/app/store/auth";
 
 interface ModalSendChangePaidProps {
   openModal: boolean;
@@ -25,6 +30,25 @@ interface ModalSendChangePaidProps {
   onResult: (result: boolean) => void;
   onClose: () => void;
 }
+
+const theme = createTheme({
+  tabs: {
+    tablist: {
+      tabitem: {
+        base: "flex items-center justify-center rounded-t-lg p-0 text-sm font-medium first:ml-0 focus:outline-none disabled:cursor-not-allowed disabled:text-gray-400 py-2",
+        variant: {
+          fullWidth: {
+            base: "ml-0 flex w-full rounded-md first:ml-0",
+            active: {
+              on: "rounded-none bg-bone-primary p-0 text-white py-2",
+              off: "rounded-none bg-white hover:bg-gray-50 hover:text-gray-700",
+            },
+          },
+        },
+      },
+    },
+  },
+});
 
 export const ModalSendChangePaid = ({
   openModal,
@@ -34,6 +58,7 @@ export const ModalSendChangePaid = ({
 }: ModalSendChangePaidProps) => {
   const { tasa } = useBCVTasaStore();
   const [amount, setAmount] = useState<number>(0);
+  const { isAdmin } = useAuthStore();
 
   const onSubmit: SubmitHandler<ChangePaidRequest> = useCallback(
     async (data: ChangePaidRequest) => {
@@ -78,58 +103,77 @@ export const ModalSendChangePaid = ({
     }
   }, [openModal, order, reset, tasa]);
 
+  console.log(isAdmin);
+
   return (
-    <ThemeProvider>
+    <ThemeProvider theme={theme}>
       <Modal show={openModal} onClose={onClose} size="sm">
         <ModalHeader>Enviar Vuelto {order?.orderName}</ModalHeader>
         <form onSubmit={handleSubmit(onSubmit)}>
           <ModalBody>
-            <div className="text-gray-400 text-sm">
-              <p>
-                {`Monto Total de la Orden: $${order?.orderTotalAmount || 0}`}
-              </p>
-              <p>{`Tasa del dia: ${currencyFormat.format(tasa.amount)}`}</p>
-            </div>
-            <div className="flex flex-col gap-2">
-              <div>
-                <div className="block">
-                  <Label htmlFor="serial">
-                    Monto cancelado por el usuario (USD):
-                  </Label>
-                </div>
-                <TextInput
-                  required
-                  inputMode="numeric"
-                  type="number"
-                  step={0.01}
-                  min={1}
-                  value={amount}
-                  onChange={(e) => handleChangeAmount(e.target.value)}
-                  color={errors.amount && "failure"}
-                />
-                <InputErrorMessage message={errors.amount?.message} />
-              </div>
-              <div className="mt-1">
-                <div className="flex justify-between items-center text-sm">
-                  <p className="">
-                    Vuelto:{" "}
-                    {`$${(amount - (order?.orderTotalAmount || 0)).toFixed(2)}`}
-                  </p>
-                  <FaArrowsRotate color="green" />
-                  <Label htmlFor="serial">
-                    Vuelto: {currencyFormat.format(watch("amount"))}
-                  </Label>
-                </div>
-                <HelperText>
-                  Al confirmar se enviara el dinero al cliente via Pago Movil
-                  R4. y no podra enviar otro para esta ordern
-                </HelperText>
-              </div>
-            </div>
+            {!isAdmin ? (
+              <PaymentUserData returnData={order?.returnData} />
+            ) : (
+              <Tabs variant="fullWidth">
+                <TabItem active={true} title="Vuelto">
+                  <div className="text-gray-400 text-sm">
+                    <p>
+                      {`Monto Total de la Orden: $${
+                        order?.orderTotalAmount || 0
+                      }`}
+                    </p>
+                    <p>{`Tasa del dia: ${currencyFormat.format(
+                      tasa.amount
+                    )}`}</p>
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <div>
+                      <div className="block">
+                        <Label htmlFor="serial">
+                          Monto cancelado por el usuario (USD):
+                        </Label>
+                      </div>
+                      <TextInput
+                        required
+                        inputMode="numeric"
+                        type="number"
+                        step={0.01}
+                        min={1}
+                        value={amount}
+                        onChange={(e) => handleChangeAmount(e.target.value)}
+                        color={errors.amount && "failure"}
+                      />
+                      <InputErrorMessage message={errors.amount?.message} />
+                    </div>
+                    <div className="mt-1">
+                      <div className="flex justify-between items-center text-sm">
+                        <p className="">
+                          Vuelto:{" "}
+                          {`$${(
+                            amount - (order?.orderTotalAmount || 0)
+                          ).toFixed(2)}`}
+                        </p>
+                        <FaArrowsRotate color="green" />
+                        <Label htmlFor="serial">
+                          Vuelto: {currencyFormat.format(watch("amount"))}
+                        </Label>
+                      </div>
+                      <HelperText>
+                        Al confirmar se enviara el dinero al cliente via Pago
+                        Movil R4. y no podra enviar otro para esta ordern
+                      </HelperText>
+                    </div>
+                  </div>
 
-            <div className="flex justify-center mt-2">
-              <Button type="submit">Confirmar</Button>
-            </div>
+                  <div className="flex justify-center mt-2">
+                    <Button type="submit">Confirmar</Button>
+                  </div>
+                </TabItem>
+                <TabItem title="Datos">
+                  <PaymentUserData returnData={order?.returnData} />
+                </TabItem>
+              </Tabs>
+            )}
           </ModalBody>
         </form>
       </Modal>

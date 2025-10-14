@@ -19,14 +19,20 @@ export interface ManualOrder {
   validateStatus: string;
   //   returnData?: Uint8Array | null;
   paymentMethodId?: number;
+  logisticValidate: boolean;
   paymentMethod?: PaymentMethod | null;
+  returnData?: CashReturnData;
   createdAt: string; // ISO date string
   updatedAt: string; // ISO date string
 }
 
-export type UpdateOrderStatusRequest = {
-  orderId: number;
-  newStatus: string;
+export type UpdateOrderRequest = {
+  orderName: string;
+  validateStatus: string;
+  amount: number;
+  logisticValidate: boolean;
+  requiresChange: boolean;
+  paymentMethodId: number;
 };
 
 export type ChangePaidRequest = {
@@ -34,3 +40,15 @@ export type ChangePaidRequest = {
   orderName: string;
   amount: number;
 };
+
+export interface CashReturnData {
+  bank: string;
+  phone: string;
+  dni: string;
+  dniType: string;
+}
+
+export interface PaymentMethod {
+  id: number;
+  name: string;
+}

@@ -14,8 +14,8 @@ import { GridOptions, GridReadyEvent } from "ag-grid-community";
 import { ManualOrder } from "@/shared/types/dto/orders.dto";
 import { toast, ToastContainer } from "react-toastify";
 import { ActionButtons } from "./components/ActionButtons";
-import { ManualOrdersStatusDropdown } from "./components/ManualOrdersStatusDropdown";
 import { ModalSendChangePaid } from "./components/ModalSendChangePaid";
+import { ModalUpdateOrder } from "./components/ModalUpdateOrder";
 
 export const OrdersManualView = () => {
   const { handleChangeViewName, currentViewName } =
@@ -25,6 +25,7 @@ export const OrdersManualView = () => {
     undefined
   );
   const [openSendChangePaidModal, setOpenSendChangePaidModal] = useState(false);
+  const [openEditModal, setOpenEditModal] = useState(false);
 
   const { data: gridData, refetch: refetchGridData } = useQuery({
     queryKey: ["manual-orders-data"],
@@ -33,29 +34,35 @@ export const OrdersManualView = () => {
     enabled: false, // Evita que se ejecute automáticamente al montar
   });
 
-  const handleChangePaidButtonClick = (data: ManualOrder) => {
+  const handleChangePaidButtonClick = useCallback((data: ManualOrder) => {
     setCurrentData(data);
     setOpenSendChangePaidModal(true);
-  };
+  }, []);
+
+  const handleEditButtonClick = useCallback((data: ManualOrder) => {
+    setCurrentData(data);
+    setOpenEditModal(true);
+  }, []);
 
   const gridOptions: GridOptions = useMemo(() => {
     return {
       columnTypes: {
-        statusColumn: {
-          cellRenderer: ManualOrdersStatusDropdown,
-          cellRendererParams: {
-            onChange: refetchGridData,
-          },
-        },
+        // statusColumn: {
+        //   cellRenderer: ManualOrdersStatusDropdown,
+        //   cellRendererParams: {
+        //     onChange: refetchGridData,
+        //   },
+        // },
         menuColumn: {
           cellRenderer: ActionButtons,
           cellRendererParams: {
             onPaidButtonClick: handleChangePaidButtonClick,
+            onEditButtonClick: handleEditButtonClick,
           },
         },
       },
     };
-  }, [refetchGridData]);
+  }, [handleChangePaidButtonClick, handleEditButtonClick]);
 
   const handleSearchArgument = (text: string) => setSearchArgument(text);
 
@@ -93,6 +100,11 @@ export const OrdersManualView = () => {
         order={currentData}
         onResult={handleSendChangePaidResult}
         onClose={() => setOpenSendChangePaidModal(false)}
+      />
+      <ModalUpdateOrder
+        openModal={openEditModal}
+        onClose={() => setOpenEditModal(false)}
+        currentData={currentData}
       />
       <Card>
         {/* Filtros por botones */}

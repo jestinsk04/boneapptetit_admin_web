@@ -6,3 +6,22 @@
 button {
   cursor: pointer !important;
 }
+
+.bg-bone-primary {
+  background-color: rgb(59, 36, 36);
+}
+.bg-bone-secondary {
+  background-color: rgb(255, 195, 150);
+}
+.bg-bone-orange {
+  background-color: rgb(255, 115, 64);
+}
+.bg-bone-yellow {
+  background-color: rgb(246, 183, 59);
+}
+.bg-bone-purple {
+  background-color: rgb(210, 164, 215);
+}
+.bg-bone-beige {
+  background-color: rgb(243, 224, 190);
+}

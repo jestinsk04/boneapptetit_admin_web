@@ -4,7 +4,8 @@ import {
   BCVTasaUSDResponse,
   ChangePaidRequest,
   ManualOrder,
-  UpdateOrderStatusRequest,
+  PaymentMethod,
+  UpdateOrderRequest,
 } from "../types/dto/orders.dto";
 
 const getBCVTasa = async (): Promise<BCVTasaUSDResponse | undefined> => {
@@ -34,12 +35,13 @@ const GetManualOrders = async (): Promise<ManualOrder[]> => {
   }
 };
 
-const UpdateManualOrderStatus = async (
-  data: UpdateOrderStatusRequest
+const UpdateManualOrder = async (
+  data: UpdateOrderRequest,
+  id: number
 ): Promise<boolean> => {
   try {
     const res = await restApiHttpRequest<IsVoidResponseType>({
-      endpoint: EndpointsList.Orders.UpdateManualOrderStatus.endpoint,
+      endpoint: `${EndpointsList.Orders.UpdateManualOrderStatus.endpoint}/${id}`,
       body: data,
       method: "put",
       isResponseVoid: true,
@@ -68,9 +70,25 @@ const SendChangePaid = async (data: ChangePaidRequest): Promise<boolean> => {
   }
 };
 
+const GetPaymentMethods = async (): Promise<PaymentMethod[]> => {
+  try {
+    const res = await restApiHttpRequest<PaymentMethod[]>({
+      endpoint: EndpointsList.Orders.GetPaymentMethods.endpoint,
+    });
+    if (res) {
+      return res;
+    }
+    return [];
+  } catch (error) {
+    console.error("Error fetching payment methods:", error);
+    return [];
+  }
+};
+
 export const ordersService = {
   GetManualOrders,
-  UpdateManualOrderStatus,
+  UpdateManualOrder,
   SendChangePaid,
   getBCVTasa,
+  GetPaymentMethods,
 };
