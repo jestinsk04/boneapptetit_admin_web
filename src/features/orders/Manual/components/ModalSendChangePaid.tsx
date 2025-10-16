@@ -8,6 +8,7 @@ import {
   Modal,
   ModalBody,
   ModalHeader,
+  Spinner,
   TabItem,
   Tabs,
   TextInput,
@@ -59,10 +60,13 @@ export const ModalSendChangePaid = ({
   const { tasa } = useBCVTasaStore();
   const [amount, setAmount] = useState<number>(0);
   const { isAdmin } = useAuthStore();
+  const [landing, setLanding] = useState(false);
 
   const onSubmit: SubmitHandler<ChangePaidRequest> = useCallback(
     async (data: ChangePaidRequest) => {
+      setLanding(true);
       const resp = await ordersService.SendChangePaid(data);
+      setLanding(false);
       onResult(resp);
     },
     [onResult]
@@ -102,8 +106,6 @@ export const ModalSendChangePaid = ({
       setAmount(parseFloat(order.amount.toFixed(2)));
     }
   }, [openModal, order, reset, tasa]);
-
-  console.log(isAdmin);
 
   return (
     <ThemeProvider theme={theme}>
@@ -166,7 +168,9 @@ export const ModalSendChangePaid = ({
                   </div>
 
                   <div className="flex justify-center mt-2">
-                    <Button type="submit">Confirmar</Button>
+                    <Button type="submit" disabled={landing}>
+                      {landing ? <Spinner /> : "Confirmar"}
+                    </Button>
                   </div>
                 </TabItem>
                 <TabItem title="Datos">

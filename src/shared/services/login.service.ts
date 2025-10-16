@@ -10,7 +10,6 @@ const Login = async (tokenID: string): Promise<LoginResponse | undefined> => {
       body: {
         tokenID,
       },
-      isResponseVoid: true,
     });
     if (res) return res;
   } catch (error) {

@@ -37,7 +37,7 @@ export async function loginWithGoogle(): Promise<undefined | LoginUserData> {
     console.error("acceso denegado");
     return undefined;
   }
-
+  console.log(response);
   const user: LoginUserData = {
     displayName: cred.user.displayName || "",
     email: cred.user.email || "",

@@ -92,6 +92,18 @@ export const OrdersManualView = () => {
     setOpenSendChangePaidModal(false);
   };
 
+  const handleUpdateOrderResult = (success: boolean) => {
+    if (success) {
+      refetchGridData();
+      toast.success("Order updated successfully");
+    } else {
+      toast.error("Error updating order");
+    }
+
+    setCurrentData(undefined);
+    setOpenEditModal(false);
+  };
+
   return (
     <>
       <ToastContainer />
@@ -105,6 +117,7 @@ export const OrdersManualView = () => {
         openModal={openEditModal}
         onClose={() => setOpenEditModal(false)}
         currentData={currentData}
+        onResult={handleUpdateOrderResult}
       />
       <Card>
         {/* Filtros por botones */}
