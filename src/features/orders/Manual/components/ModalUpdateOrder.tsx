@@ -157,7 +157,12 @@ export const ModalUpdateOrder = ({
               <Button color="red" onClick={onClose}>
                 <FaXmark className="h-5 w-5" />
               </Button>
-              <Button type="submit" disabled={landing} color="green">
+              <Button
+                type="submit"
+                className="bg-bone-yellow hover:bg-bone-orange text-bone-primary"
+                disabled={landing}
+                color="green"
+              >
                 {landing ? <Spinner /> : <FaCheck className="h-5 w-5" />}
               </Button>
             </div>

@@ -35,14 +35,17 @@ interface ModalSendChangePaidProps {
 const theme = createTheme({
   tabs: {
     tablist: {
+      variant: {
+        fullWidth: "shadow-none",
+      },
       tabitem: {
         base: "flex items-center justify-center rounded-t-lg p-0 text-sm font-medium first:ml-0 focus:outline-none disabled:cursor-not-allowed disabled:text-gray-400 py-2",
         variant: {
           fullWidth: {
             base: "ml-0 flex w-full rounded-md first:ml-0",
             active: {
-              on: "rounded-none bg-bone-primary p-0 text-white py-2",
-              off: "rounded-none bg-white hover:bg-gray-50 hover:text-gray-700",
+              on: "rounded-xl bg-bone-yellow p-0 text-bone-primary py-2",
+              off: "rounded-xl bg-white hover:bg-gray-50 hover:text-gray-700 border-1 border-[#3C2525]",
             },
           },
         },
@@ -168,7 +171,11 @@ export const ModalSendChangePaid = ({
                   </div>
 
                   <div className="flex justify-center mt-2">
-                    <Button type="submit" disabled={landing}>
+                    <Button
+                      type="submit"
+                      disabled={landing}
+                      className="bg-bone-yellow hover:bg-bone-orange text-bone-primary"
+                    >
                       {landing ? <Spinner /> : "Confirmar"}
                     </Button>
                   </div>

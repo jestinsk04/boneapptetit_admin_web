@@ -24,6 +24,7 @@ export interface ManualOrder {
   returnData?: CashReturnData;
   createdAt: string; // ISO date string
   updatedAt: string; // ISO date string
+  changePaymentLog?: ChangePaymentLog;
 }
 
 export type UpdateOrderRequest = {
@@ -51,4 +52,12 @@ export interface CashReturnData {
 export interface PaymentMethod {
   id: number;
   name: string;
+}
+
+export interface ChangePaymentLog {
+  id: number;
+  manualOrderId: number;
+  reference: string;
+  amount: number;
+  createdAt: string; // ISO date string
 }

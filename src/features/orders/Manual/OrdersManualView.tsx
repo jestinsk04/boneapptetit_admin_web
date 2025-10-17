@@ -16,6 +16,7 @@ import { toast, ToastContainer } from "react-toastify";
 import { ActionButtons } from "./components/ActionButtons";
 import { ModalSendChangePaid } from "./components/ModalSendChangePaid";
 import { ModalUpdateOrder } from "./components/ModalUpdateOrder";
+import { ModalViewChangePaymentLog } from "./components/ModalViewChangePaymentLog";
 
 export const OrdersManualView = () => {
   const { handleChangeViewName, currentViewName } =
@@ -26,6 +27,8 @@ export const OrdersManualView = () => {
   );
   const [openSendChangePaidModal, setOpenSendChangePaidModal] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
+  const [openViewChangePaymentLogModal, setOpenViewChangePaymentLogModal] =
+    useState(false);
 
   const { data: gridData, refetch: refetchGridData } = useQuery({
     queryKey: ["manual-orders-data"],
@@ -44,6 +47,11 @@ export const OrdersManualView = () => {
     setOpenEditModal(true);
   }, []);
 
+  const handleViewChangePaymentLogClick = useCallback((data: ManualOrder) => {
+    setCurrentData(data);
+    setOpenViewChangePaymentLogModal(true);
+  }, []);
+
   const gridOptions: GridOptions = useMemo(() => {
     return {
       columnTypes: {
@@ -58,11 +66,16 @@ export const OrdersManualView = () => {
           cellRendererParams: {
             onPaidButtonClick: handleChangePaidButtonClick,
             onEditButtonClick: handleEditButtonClick,
+            onViewChangePaymentLogClick: handleViewChangePaymentLogClick,
           },
         },
       },
     };
-  }, [handleChangePaidButtonClick, handleEditButtonClick]);
+  }, [
+    handleChangePaidButtonClick,
+    handleEditButtonClick,
+    handleViewChangePaymentLogClick,
+  ]);
 
   const handleSearchArgument = (text: string) => setSearchArgument(text);
 
@@ -118,6 +131,11 @@ export const OrdersManualView = () => {
         onClose={() => setOpenEditModal(false)}
         currentData={currentData}
         onResult={handleUpdateOrderResult}
+      />
+      <ModalViewChangePaymentLog
+        openModal={openViewChangePaymentLogModal}
+        paymentLog={currentData?.changePaymentLog}
+        onClose={() => setOpenViewChangePaymentLogModal(false)}
       />
       <Card>
         {/* Filtros por botones */}

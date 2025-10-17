@@ -12,6 +12,7 @@ interface ActionButtonsProps {
   data: ManualOrder;
   onPaidButtonClick: (data: ManualOrder) => void;
   onEditButtonClick?: (data: ManualOrder) => void;
+  onViewChangePaymentLogClick: (data: ManualOrder) => void;
 }
 
 const sectionTheme = createTheme({
@@ -22,6 +23,7 @@ export const ActionButtons = ({
   data,
   onPaidButtonClick,
   onEditButtonClick,
+  onViewChangePaymentLogClick,
 }: ActionButtonsProps) => {
   return (
     <ThemeProvider theme={sectionTheme}>
@@ -43,7 +45,15 @@ export const ActionButtons = ({
               icon={FaMoneyBill}
               onClick={() => onPaidButtonClick(data)}
             >
-              Vuelto
+              Realizar Vuelto
+            </DropdownItem>
+          )}
+          {data.changePaymentLog && (
+            <DropdownItem
+              icon={FaMoneyBill}
+              onClick={() => onViewChangePaymentLogClick(data)}
+            >
+              Resultado de Vuelto
             </DropdownItem>
           )}
         </Dropdown>
