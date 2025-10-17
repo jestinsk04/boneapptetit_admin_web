@@ -55,17 +55,18 @@ export const colDefs: ColDef[] = [
   },
   {
     field: "requiresChange",
-    headerName: "Vuelto?",
+    headerName: "Vuelto",
     flex: 1,
-    valueFormatter: (params) => (params.value ? "Yes" : "No"),
+    type: "changeColumn",
+    // valueFormatter: (params) => (params.value ? "Yes" : "No"),
   },
   {
     colId: "menu",
     type: "menuColumn",
-    cellStyle: { overflow: "visible", zIndex: "auto" },
-    suppressSizeToFit: true,
+    // cellStyle: { overflow: "visible", zIndex: "auto" },
+    // suppressSizeToFit: true,
     maxWidth: 80,
-    pinned: "right",
+    // pinned: "right",
     onCellClicked: () => {
       return false;
     },

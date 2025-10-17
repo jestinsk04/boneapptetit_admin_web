@@ -1,63 +1,21 @@
 import { ManualOrder } from "@/shared/types/dto/orders.dto";
-import { dropdownTheme } from "@/shared/ui/ag-grid-theme";
-import {
-  createTheme,
-  Dropdown,
-  DropdownItem,
-  ThemeProvider,
-} from "flowbite-react";
-import { FaBars, FaMoneyBill, FaPenToSquare } from "react-icons/fa6";
+import { Button } from "flowbite-react";
+import { FaPenToSquare } from "react-icons/fa6";
 
 interface ActionButtonsProps {
   data: ManualOrder;
-  onPaidButtonClick: (data: ManualOrder) => void;
   onEditButtonClick?: (data: ManualOrder) => void;
-  onViewChangePaymentLogClick: (data: ManualOrder) => void;
 }
-
-const sectionTheme = createTheme({
-  dropdown: dropdownTheme,
-});
 
 export const ActionButtons = ({
   data,
-  onPaidButtonClick,
   onEditButtonClick,
-  onViewChangePaymentLogClick,
 }: ActionButtonsProps) => {
   return (
-    <ThemeProvider theme={sectionTheme}>
-      <div className="flex justify-center items-center">
-        <Dropdown
-          size="sm"
-          label={<FaBars />}
-          dismissOnClick={false}
-          placement="left-start"
-        >
-          <DropdownItem
-            icon={FaPenToSquare}
-            onClick={() => onEditButtonClick?.(data)}
-          >
-            Edit
-          </DropdownItem>
-          {data.requiresChange && (
-            <DropdownItem
-              icon={FaMoneyBill}
-              onClick={() => onPaidButtonClick(data)}
-            >
-              Realizar Vuelto
-            </DropdownItem>
-          )}
-          {data.changePaymentLog && (
-            <DropdownItem
-              icon={FaMoneyBill}
-              onClick={() => onViewChangePaymentLogClick(data)}
-            >
-              Resultado de Vuelto
-            </DropdownItem>
-          )}
-        </Dropdown>
-      </div>
-    </ThemeProvider>
+    <div className="w-full h-full flex justify-center items-center">
+      <Button size="xs" onClick={() => onEditButtonClick?.(data)}>
+        <FaPenToSquare className="w-4 h-4" />
+      </Button>
+    </div>
   );
 };

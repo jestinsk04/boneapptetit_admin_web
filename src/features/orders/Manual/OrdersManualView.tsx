@@ -17,6 +17,7 @@ import { ActionButtons } from "./components/ActionButtons";
 import { ModalSendChangePaid } from "./components/ModalSendChangePaid";
 import { ModalUpdateOrder } from "./components/ModalUpdateOrder";
 import { ModalViewChangePaymentLog } from "./components/ModalViewChangePaymentLog";
+import { SendChangeButton } from "./components/SendChangeButton";
 
 export const OrdersManualView = () => {
   const { handleChangeViewName, currentViewName } =
@@ -55,18 +56,17 @@ export const OrdersManualView = () => {
   const gridOptions: GridOptions = useMemo(() => {
     return {
       columnTypes: {
-        // statusColumn: {
-        //   cellRenderer: ManualOrdersStatusDropdown,
-        //   cellRendererParams: {
-        //     onChange: refetchGridData,
-        //   },
-        // },
+        changeColumn: {
+          cellRenderer: SendChangeButton,
+          cellRendererParams: {
+            onPaidButtonClick: handleChangePaidButtonClick,
+            onViewChangePaymentLogClick: handleViewChangePaymentLogClick,
+          },
+        },
         menuColumn: {
           cellRenderer: ActionButtons,
           cellRendererParams: {
-            onPaidButtonClick: handleChangePaidButtonClick,
             onEditButtonClick: handleEditButtonClick,
-            onViewChangePaymentLogClick: handleViewChangePaymentLogClick,
           },
         },
       },
