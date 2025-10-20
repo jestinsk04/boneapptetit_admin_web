@@ -6,3 +6,34 @@
 button {
   cursor: pointer !important;
 }
+
+@theme {
+  --color-bone-primary: #3b2424;
+  --color-bone-secondary: #ffc396;
+  --color-bone-orange: #ff7340;
+  --color-bone-yellow: #f6b73b;
+  --color-bone-yellow-light: #FFDB94;
+  --color-bone-purple: #d2a4d7;
+  --color-bone-beige: #f3e0be;
+  --color-bone-beige-light: #FFF4E0;
+  --default-font-family: 'BricolageGrotesque', sans-serif;
+  --text-xxs: 0.625rem;
+}
+
+@font-face {
+  font-family: BricolageGrotesque;
+  src: url(../font/BricolageGrotesque.ttf);
+  src: url(../font/BricolageGrotesque.ttf) format("ttf"),
+    url(../font/BricolageGrotesque.ttf) format("truetype");
+}
+
+[role="button"],
+button {
+  cursor: pointer !important;
+}
+
+body,
+html {
+  font-family: "BricolageGrotesque", sans-serif !important;
+  color: #3b2e2a !important;
+}

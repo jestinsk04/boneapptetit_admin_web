@@ -3,17 +3,19 @@ import "./App.css";
 import { Nav } from "./shared/component/Navbar";
 import { AuthNavigation } from "./app/navigation/AuthNavigation";
 import { RootNavigation } from "./app/navigation/RootNavigation";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AllCommunityModule, ModuleRegistry } from "ag-grid-community";
 import { ThemeConfig } from "flowbite-react";
 import { ToastContainer } from "react-toastify";
+import { useBCVTasaStore } from "./app/store/bcv";
 
 // Registrar módulos (obligatorio en v33+)clear
 ModuleRegistry.registerModules([AllCommunityModule]);
 
 function App() {
   const isLoggedIn = useAuthStore().isLoggedIn;
+  const { checkBCVData, refetch } = useBCVTasaStore();
 
   // Create a new QueryClient instance
   const [client] = useState(
@@ -26,6 +28,17 @@ function App() {
         },
       })
   );
+
+  const handleCheckBCVTasa = useCallback(async () => {
+    if (!checkBCVData()) {
+      refetch();
+    }
+  }, [checkBCVData, refetch]);
+
+  useEffect(() => {
+    if (!isLoggedIn) return;
+    handleCheckBCVTasa();
+  }, [handleCheckBCVTasa, isLoggedIn]);
 
   return (
     <>

@@ -6,16 +6,20 @@ import {
   NavbarLink,
   NavbarToggle,
 } from "flowbite-react";
-import logo from "../../assets/logo.png"; // Adjust the path to your logo file
 import { useAuthStore, useAuthStoreActions } from "../../app/store/auth"; // Importa el estado de autenticación
 import { Link, useNavigate } from "react-router";
 import { useCallback, useState } from "react";
 import { FaArrowRightToBracket } from "react-icons/fa6";
+import { useBCVTasaStore } from "@/app/store/bcv";
+import { currencyFormat } from "../utils/helpers";
+import BoneAppetitLogo from "@/assets/logo";
 
 export const Nav = () => {
   const [isLogout, setIsLogout] = useState(false);
+  const { tasa } = useBCVTasaStore();
   const removeSessionData = useAuthStoreActions().removeSessionData;
   const user = useAuthStore().email;
+  const isAdmin = useAuthStore().isAdmin;
   const navigation = useNavigate();
 
   const handleLogout = useCallback(async () => {
@@ -25,15 +29,16 @@ export const Nav = () => {
   }, [removeSessionData, navigation]);
 
   return (
-    <Navbar fluid className="w-full bg-[#f3e0be] border-b border-gray-300">
+    <Navbar fluid className="w-full bg-bone-beige border-b border-gray-300">
       <NavbarBrand
         as={Link}
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-expect-error
         to="/"
       >
-        <img src={logo} className="mr-3 h-6 sm:h-14" alt="Logo" />
-        <span>Bienvenido {user} !</span>
+        <BoneAppetitLogo />
+        {/* <img src={logo} className="mr-3 h-6 sm:h-14" alt="Logo" /> */}
+        <span className="ml-2">Bienvenido {user} !</span>
       </NavbarBrand>
 
       <NavbarToggle />
@@ -46,14 +51,17 @@ export const Nav = () => {
         >
           Home
         </NavbarLink>
-        <NavbarLink
-          as={Link}
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-expect-error
-          to="/webhook/config"
-        >
-          Webhook Config
-        </NavbarLink>
+        {isAdmin && (
+          <NavbarLink
+            as={Link}
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
+            to="/webhook/config"
+          >
+            Webhook Config
+          </NavbarLink>
+        )}
+
         <NavbarLink
           as={Link}
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -62,15 +70,29 @@ export const Nav = () => {
         >
           Webhook Logs
         </NavbarLink>
+        <NavbarLink
+          as={Link}
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-expect-error
+          to="/orders/manual"
+        >
+          Manual Orders
+        </NavbarLink>
       </NavbarCollapse>
-      <Button
-        disabled={isLogout}
-        onClick={handleLogout}
-        className="m-0 bg-[#ff7340] hover:bg-[#e66a38] focus:ring-[#ff7340] focus:ring-4 gap-1"
-      >
-        <FaArrowRightToBracket />
-        Cerrar sesión
-      </Button>
+      <div className="flex justify-end items-center gap-2">
+        <span className="border-r-1 pr-2">
+          Tasa BCV: {currencyFormat.format(tasa.amount) ?? 0}
+        </span>
+        <Button
+          size="sm"
+          disabled={isLogout}
+          onClick={handleLogout}
+          className="m-0 bg-bone-orange hover:bg-[#e66a38] focus:ring-[#ff7340] focus:ring-4 gap-1"
+        >
+          <FaArrowRightToBracket />
+          Cerrar sesión
+        </Button>
+      </div>
     </Navbar>
   );
 };

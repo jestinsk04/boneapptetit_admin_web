@@ -1,21 +1,19 @@
 import { EndpointsList } from "../config/endpoints";
 import { IsVoidResponseType, restApiHttpRequest } from "../libs/httpClient";
+import { LoginResponse } from "../types/dto/login.dto";
 
-const Login = async (tokenID: string): Promise<boolean> => {
+const Login = async (tokenID: string): Promise<LoginResponse | undefined> => {
   try {
-    const res = await restApiHttpRequest<IsVoidResponseType>({
+    const res = await restApiHttpRequest<LoginResponse>({
       endpoint: EndpointsList.Login.Login.endpoint,
       method: "post",
       body: {
         tokenID,
       },
-      isResponseVoid: true,
     });
-    if (res?.status !== 200) return false;
-    return true;
+    if (res) return res;
   } catch (error) {
     console.error(error);
-    return false;
   }
 };
 

@@ -1,5 +1,6 @@
 export const API_HOST =
-  import.meta.env.VITE_API_HOST || "https://boneappetit-food-webhook-341937476244.us-central1.run.app";
+  import.meta.env.VITE_API_HOST ||
+  "https://boneappetit-food-webhook-341937476244.us-central1.run.app";
 
 export const EndpointsList = {
   Login: {
@@ -28,6 +29,23 @@ export const EndpointsList = {
     },
     ReintentLog: {
       endpoint: "/webhook/admin/reintent",
+    },
+  },
+  Orders: {
+    getBCVTasa: {
+      endpoint: "bcv-tasa",
+    },
+    GetManualOrders: {
+      endpoint: "/orders/manual",
+    },
+    UpdateManualOrderStatus: {
+      endpoint: "/orders/manual",
+    },
+    SendChangePaid: {
+      endpoint: "/orders/change-paid",
+    },
+    GetPaymentMethods: {
+      endpoint: "/orders/payment-methods",
     },
   },
 };

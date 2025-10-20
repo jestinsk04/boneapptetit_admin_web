@@ -7,6 +7,7 @@ export interface AuthStoreState {
   email: string;
   displayName: string;
   isLoggedIn?: boolean;
+  isAdmin: boolean;
 }
 
 type AuthStoreActions = {
@@ -23,11 +24,13 @@ export const AuthStore = createStore<AuthStoreType>()(
       email: "",
       displayName: "",
       isLoggedIn: false,
+      isAdmin: false,
       setUserData: (userDataSession: AuthStoreState) =>
         set({
           displayName: userDataSession.displayName,
           email: userDataSession.email,
           isLoggedIn: true,
+          isAdmin: userDataSession.isAdmin,
         }),
       removeSessionData: async () => {
         if (!get().isLoggedIn) return;
@@ -36,6 +39,7 @@ export const AuthStore = createStore<AuthStoreType>()(
           displayName: "",
           email: "",
           isLoggedIn: false,
+          isAdmin: false,
         });
         sessionStorage.removeItem("auth-storage");
       },
@@ -62,5 +66,6 @@ export const useAuthStoreActions = () => {
 export const useAuthStore = () => {
   const email = useStore(AuthStore, (state) => state.email);
   const isLoggedIn = useStore(AuthStore, (state) => state.isLoggedIn);
-  return { isLoggedIn, email };
+  const isAdmin = useStore(AuthStore, (state) => state.isAdmin);
+  return { isLoggedIn, email, isAdmin };
 };
