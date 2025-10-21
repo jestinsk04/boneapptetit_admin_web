@@ -135,8 +135,8 @@ export const WebhookConfigView = () => {
                   );
                 }}
               >
-                <option value="CONFIRMED">CONFIRMED</option>
-                <option value="UNCONFIRMED">UNCONFIRMED</option>
+                <option value="DRAFT">DRAFT</option>
+                {/* <option value="UNCONFIRMED">UNCONFIRMED</option> */}
               </Select>
               <InputErrorMessage
                 message={errors.odooOrderCreationState?.message}
