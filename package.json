@@ -10,7 +10,8 @@
     "preview": "vite preview",
     "postinstall": "flowbite-react patch",
     "docs": "pandoc docs/ManualUsuario.md -o docs/ManualUsuario.docx",
-    "deploy": "firebase deploy --only hosting:gen-lang-client-0359101987"
+    "deploy-dev": "firebase deploy --only hosting:gen-lang-client-0359101987",
+    "deploy-prod": "firebase deploy --only hosting:pasarela-de-pagos-475314"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.0.1",
