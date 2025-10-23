@@ -97,68 +97,66 @@ export const ModalSendChangePaid = ({
         <ModalHeader>Enviar Vuelto {order?.orderName}</ModalHeader>
         <form onSubmit={handleSubmit(onSubmit)}>
           <ModalBody>
-            {!isAdmin ? (
-              <PaymentUserData returnData={order?.returnData} />
-            ) : (
-              <Tabs variant="fullWidth">
-                <TabItem active={true} title="Vuelto">
-                  <div className="text-sm">
-                    <p>
-                      {`Monto Total de la Orden: $${
-                        order?.orderTotalAmount || 0
-                      }`}
-                    </p>
+            <Tabs variant="fullWidth">
+              <TabItem active={true} title="Vuelto">
+                <div className="text-sm">
+                  <p>
+                    {`Monto Total de la Orden: $${
+                      order?.orderTotalAmount || 0
+                    }`}
+                  </p>
 
-                    <p className="flex gap-2 items-center">
-                      {`Validado por logística:`}{" "}
-                      {order?.logisticValidate ? (
-                        <FaCheck color="green" />
-                      ) : (
-                        <FaXmark color="red" />
-                      )}
-                    </p>
-                    <p>Monto cancelado por el usuario: ${amount}</p>
-                    <p>{`Tasa del dia: ${currencyFormat.format(
-                      tasa.amount
-                    )}`}</p>
-                  </div>
+                  <p className="flex gap-2 items-center">
+                    {`Validado por logística:`}{" "}
+                    {order?.logisticValidate ? (
+                      <FaCheck color="green" />
+                    ) : (
+                      <FaXmark color="red" />
+                    )}
+                  </p>
+                  <p>Monto cancelado por el usuario: ${amount}</p>
+                  <p>{`Tasa del dia: ${currencyFormat.format(tasa.amount)}`}</p>
+                </div>
 
-                  <div className="flex flex-col gap-2 my-2 bg-bone-light-beige rounded-md">
-                    <div className="flex justify-between items-center text-sm">
-                      <p className="">
-                        Vuelto:{" "}
-                        {`$${(amount - (order?.orderTotalAmount || 0)).toFixed(
-                          2
-                        )}`}
-                      </p>
-                      <FaArrowsRotate color="green" />
-                      <Label htmlFor="serial">
-                        Vuelto: {currencyFormat.format(watch("amount"))}
-                      </Label>
-                    </div>
+                <div className="flex flex-col gap-2 my-2 bg-bone-light-beige rounded-md">
+                  <div className="flex justify-between items-center text-sm">
+                    <p className="">
+                      Vuelto:{" "}
+                      {`$${(amount - (order?.orderTotalAmount || 0)).toFixed(
+                        2
+                      )}`}
+                    </p>
+                    <FaArrowsRotate color="green" />
+                    <Label htmlFor="serial">
+                      Vuelto: {currencyFormat.format(watch("amount"))}
+                    </Label>
                   </div>
-                  <Alert
-                    className="bg-bone-beige text-bone-primary text-xxs py-2 px-4"
-                    icon={HiInformationCircle}
-                  >
-                    Al confirmar se enviara el dinero al cliente via Pago Movil
-                    R4. y no podra enviar otro para esta ordern
-                  </Alert>
-                  <div className="flex justify-center mt-2">
-                    <Button
-                      type="submit"
-                      disabled={landing}
-                      className="bg-bone-yellow hover:bg-bone-orange text-bone-primary"
+                </div>
+                {isAdmin && (
+                  <>
+                    <Alert
+                      className="bg-bone-beige text-bone-primary text-xxs py-2 px-4"
+                      icon={HiInformationCircle}
                     >
-                      {landing ? <Spinner /> : "Confirmar"}
-                    </Button>
-                  </div>
-                </TabItem>
-                <TabItem title="Datos">
-                  <PaymentUserData returnData={order?.returnData} />
-                </TabItem>
-              </Tabs>
-            )}
+                      Al confirmar se enviara el dinero al cliente via Pago
+                      Movil R4. y no podra enviar otro para esta ordern
+                    </Alert>
+                    <div className="flex justify-center mt-2">
+                      <Button
+                        type="submit"
+                        disabled={landing}
+                        className="bg-bone-yellow hover:bg-bone-orange text-bone-primary"
+                      >
+                        {landing ? <Spinner /> : "Confirmar"}
+                      </Button>
+                    </div>
+                  </>
+                )}
+              </TabItem>
+              <TabItem title="Datos">
+                <PaymentUserData returnData={order?.returnData} />
+              </TabItem>
+            </Tabs>
           </ModalBody>
         </form>
       </Modal>
