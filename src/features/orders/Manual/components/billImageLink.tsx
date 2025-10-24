@@ -8,15 +8,17 @@ interface BillImageLinkProps {
 export const BillImageLink = ({ data }: BillImageLinkProps) => {
   return (
     <div className="flex items-center justify-center">
-      <a
-        href={`${data.billImageUrl}`}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="flex justify-center items-center gap-1 text-blue-500"
-      >
-        Open
-        <FaArrowUpRightFromSquare  />
-      </a>
+      {data.billImageUrl !== "" && (
+        <a
+          href={`${data.billImageUrl}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex justify-center items-center gap-1 text-blue-500"
+        >
+          Open
+          <FaArrowUpRightFromSquare />
+        </a>
+      )}
     </div>
   );
 };
