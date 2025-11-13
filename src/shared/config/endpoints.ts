@@ -15,20 +15,35 @@ export const EndpointsList = {
     },
   },
   Webhook: {
-    GetLogs: {
-      endpoint: "/webhook/admin/logs",
-    },
-    GetConfig: {
-      endpoint: "/webhook/admin/config",
-    },
-    UpdateConfig: {
-      endpoint: "/webhook/admin/config",
+    GetPriceList: {
+      endpoint: "/webhook/admin/price-lists",
     },
     GetCurrencies: {
       endpoint: "/webhook/admin/currencies",
     },
-    ReintentLog: {
-      endpoint: "/webhook/admin/reintent",
+    GetSalesConfig: {
+      endpoint: "/webhook/admin/sales/config",
+    },
+    UpdateSalesConfig: {
+      endpoint: "/webhook/admin/sales/config",
+    },
+    GetSalesLogs: {
+      endpoint: "/webhook/admin/sales/logs",
+    },
+    ReintentSalesLog: {
+      endpoint: "/webhook/admin/sales/reintent",
+    },
+    GetInvoicesConfig: {
+      endpoint: "/webhook/admin/invoices/config",
+    },
+    UpdateInvoicesConfig: {
+      endpoint: "/webhook/admin/invoices/config",
+    },
+    GetInvoicesLogs: {
+      endpoint: "/webhook/admin/invoices/logs",
+    },
+    ReintentInvoicesLog: {
+      endpoint: "/webhook/admin/invoices/reintent",
     },
   },
   Orders: {
