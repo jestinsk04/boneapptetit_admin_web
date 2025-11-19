@@ -16,6 +16,7 @@ export interface webhookConfig {
   odooTipSKU: string;
   odooDiscountSKU: string;
   odooShippingSKU: string;
+  odooShippingDiscountSKU: string;
   createAt: string;
   updateAt: string;
 }
@@ -37,6 +38,7 @@ export type updateWebhookConfigRequest = {
   odooTipSKU: string;
   odooDiscountSKU: string;
   odooShippingSKU: string;
+  odooShippingDiscountSKU: string;
 };
 
 export type webhookCurrencies = {

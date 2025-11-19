@@ -18,4 +18,7 @@ export const webhookConfigSchema = yup.object().shape({
   odooTipSKU: yup.string().required("Tip SKU is required"),
   odooDiscountSKU: yup.string().required("Discount SKU is required"),
   odooShippingSKU: yup.string().required("Shipping SKU is required"),
+  odooShippingDiscountSKU: yup
+    .string()
+    .required("Shipping Discount SKU is required"),
 });

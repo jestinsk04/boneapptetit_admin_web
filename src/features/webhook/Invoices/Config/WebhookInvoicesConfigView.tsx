@@ -215,6 +215,16 @@ export const WebhookInvoicesConfigView = () => {
                 />
                 <InputErrorMessage message={errors.odooShippingSKU?.message} />
               </div>
+              <div>
+                <div className="mb-2 block">
+                  <Label htmlFor="odooOrderCreationState">Shipping SKU</Label>
+                </div>
+                <TextInput
+                  id="odooShippingSKU"
+                  {...register("odooShippingSKU")}
+                />
+                <InputErrorMessage message={errors.odooShippingSKU?.message} />
+              </div>
             </div>
             <div className="w-full flex justify-center mt-4">
               <Button color="green" disabled={landing} type="submit">

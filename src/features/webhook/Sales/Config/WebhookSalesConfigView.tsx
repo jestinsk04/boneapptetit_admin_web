@@ -105,6 +105,7 @@ export const WebhookSalesConfigView = () => {
         odooTipSKU: currentData.odooTipSKU,
         odooDiscountSKU: currentData.odooDiscountSKU,
         odooShippingSKU: currentData.odooShippingSKU,
+        odooShippingDiscountSKU: currentData.odooShippingDiscountSKU,
       });
     }
   }, [currentData, landing]);
@@ -214,6 +215,20 @@ export const WebhookSalesConfigView = () => {
                   {...register("odooShippingSKU")}
                 />
                 <InputErrorMessage message={errors.odooShippingSKU?.message} />
+              </div>
+              <div>
+                <div className="mb-2 block">
+                  <Label htmlFor="odooOrderCreationState">
+                    Shipping Discount SKU
+                  </Label>
+                </div>
+                <TextInput
+                  id="odooShippingDiscountSKU"
+                  {...register("odooShippingDiscountSKU")}
+                />
+                <InputErrorMessage
+                  message={errors.odooShippingDiscountSKU?.message}
+                />
               </div>
             </div>
             <div className="w-full flex justify-center mt-4">
