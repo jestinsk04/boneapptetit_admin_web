@@ -26,21 +26,6 @@ export const WebhookSalesConfigView = () => {
     undefined
   );
 
-  const onSubmit: SubmitHandler<updateWebhookConfigRequest> = useCallback(
-    async (data) => {
-      setLanding(true);
-      const response = await webhookService.UpdateSalesConfig(data);
-
-      if (response) {
-        toast.success("Se actualizo la configuración del webhook");
-      } else {
-        toast.error("Error al actualizar la configuración del webhook");
-      }
-      setLanding(false);
-    },
-    []
-  );
-
   const handleFetchConfig = useCallback(async () => {
     setLanding(true);
     const config = await webhookService.GetSalesConfig();
@@ -52,15 +37,42 @@ export const WebhookSalesConfigView = () => {
     setLanding(false);
   }, []);
 
+  const onSubmit: SubmitHandler<updateWebhookConfigRequest> = useCallback(
+    async (data) => {
+      setLanding(true);
+      const response = await webhookService.UpdateSalesConfig(data);
+
+      if (response) {
+        toast.success("Se actualizo la configuración del webhook");
+      } else {
+        toast.error("Error al actualizar la configuración del webhook");
+      }
+      setLanding(false);
+      handleFetchConfig();
+    },
+    []
+  );
+
   const {
     handleSubmit,
     watch,
     setValue,
-    reset,
     register,
     formState: { errors },
   } = useForm<updateWebhookConfigRequest>({
     resolver: yupResolver(webhookConfigSchema),
+    defaultValues: {
+      id: currentData?.id,
+      odooOrderCreationState: currentData?.odooOrderCreationState,
+      syncOrderByStatus: currentData?.syncOrderByStatus,
+      odooCurrencyTypeId: currentData?.odooCurrencyTypeId,
+      odooPriceListId: currentData?.odooPriceListId,
+      paymentMethods: currentData?.paymentMethods,
+      odooTipSKU: currentData?.odooTipSKU,
+      odooDiscountSKU: currentData?.odooDiscountSKU,
+      odooShippingSKU: currentData?.odooShippingSKU,
+      odooShippingDiscountSKU: currentData?.odooShippingDiscountSKU,
+    },
   });
 
   const paymentMethods = watch("paymentMethods");
@@ -93,20 +105,6 @@ export const WebhookSalesConfigView = () => {
   useEffect(() => {
     if (!currentData && !landing) {
       handleFetchConfig();
-    }
-    if (currentData) {
-      reset({
-        id: currentData.id,
-        odooOrderCreationState: currentData.odooOrderCreationState,
-        syncOrderByStatus: currentData.syncOrderByStatus,
-        odooCurrencyTypeId: currentData.odooCurrencyTypeId,
-        odooPriceListId: currentData.odooPriceListId,
-        paymentMethods: currentData.paymentMethods,
-        odooTipSKU: currentData.odooTipSKU,
-        odooDiscountSKU: currentData.odooDiscountSKU,
-        odooShippingSKU: currentData.odooShippingSKU,
-        odooShippingDiscountSKU: currentData.odooShippingDiscountSKU,
-      });
     }
   }, [currentData, landing]);
 
