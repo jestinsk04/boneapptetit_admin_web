@@ -60,17 +60,17 @@ export const WebhookInvoicesConfigView = () => {
     formState: { errors },
   } = useForm<updateWebhookConfigRequest>({
     resolver: yupResolver(webhookConfigSchema),
-    defaultValues: {
-      id: currentData?.id,
-      odooOrderCreationState: currentData?.odooOrderCreationState,
-      syncOrderByStatus: currentData?.syncOrderByStatus,
-      odooCurrencyTypeId: currentData?.odooCurrencyTypeId,
-      odooPriceListId: currentData?.odooPriceListId,
-      paymentMethods: currentData?.paymentMethods,
-      odooTipSKU: currentData?.odooTipSKU,
-      odooDiscountSKU: currentData?.odooDiscountSKU,
-      odooShippingSKU: currentData?.odooShippingSKU,
-      odooShippingDiscountSKU: currentData?.odooShippingDiscountSKU,
+    values: {
+      id: currentData?.id || 0,
+      odooOrderCreationState: currentData?.odooOrderCreationState || "DRAFT",
+      syncOrderByStatus: currentData?.syncOrderByStatus || "PAID",
+      odooCurrencyTypeId: currentData?.odooCurrencyTypeId || 0,
+      odooPriceListId: currentData?.odooPriceListId || 0,
+      paymentMethods: currentData?.paymentMethods || "",
+      odooTipSKU: currentData?.odooTipSKU || "",
+      odooDiscountSKU: currentData?.odooDiscountSKU || "",
+      odooShippingSKU: currentData?.odooShippingSKU || "",
+      odooShippingDiscountSKU: currentData?.odooShippingDiscountSKU || "",
     },
   });
 
@@ -215,13 +215,17 @@ export const WebhookInvoicesConfigView = () => {
               </div>
               <div>
                 <div className="mb-2 block">
-                  <Label htmlFor="odooOrderCreationState">Shipping SKU</Label>
+                  <Label htmlFor="odooOrderCreationState">
+                    Shipping Discount SKU
+                  </Label>
                 </div>
                 <TextInput
-                  id="odooShippingSKU"
-                  {...register("odooShippingSKU")}
+                  id="odooShippingDiscountSKU"
+                  {...register("odooShippingDiscountSKU")}
                 />
-                <InputErrorMessage message={errors.odooShippingSKU?.message} />
+                <InputErrorMessage
+                  message={errors.odooShippingDiscountSKU?.message}
+                />
               </div>
             </div>
             <div className="w-full flex justify-center mt-4">

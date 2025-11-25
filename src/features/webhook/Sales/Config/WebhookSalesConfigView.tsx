@@ -61,17 +61,17 @@ export const WebhookSalesConfigView = () => {
     formState: { errors },
   } = useForm<updateWebhookConfigRequest>({
     resolver: yupResolver(webhookConfigSchema),
-    defaultValues: {
-      id: currentData?.id,
-      odooOrderCreationState: currentData?.odooOrderCreationState,
-      syncOrderByStatus: currentData?.syncOrderByStatus,
-      odooCurrencyTypeId: currentData?.odooCurrencyTypeId,
-      odooPriceListId: currentData?.odooPriceListId,
-      paymentMethods: currentData?.paymentMethods,
-      odooTipSKU: currentData?.odooTipSKU,
-      odooDiscountSKU: currentData?.odooDiscountSKU,
-      odooShippingSKU: currentData?.odooShippingSKU,
-      odooShippingDiscountSKU: currentData?.odooShippingDiscountSKU,
+    values: {
+      id: currentData?.id || 0,
+      odooOrderCreationState: currentData?.odooOrderCreationState || "DRAFT",
+      syncOrderByStatus: currentData?.syncOrderByStatus || "PAID",
+      odooCurrencyTypeId: currentData?.odooCurrencyTypeId || 0,
+      odooPriceListId: currentData?.odooPriceListId || 0,
+      paymentMethods: currentData?.paymentMethods || "",
+      odooTipSKU: currentData?.odooTipSKU || "",
+      odooDiscountSKU: currentData?.odooDiscountSKU || "",
+      odooShippingSKU: currentData?.odooShippingSKU || "",
+      odooShippingDiscountSKU: currentData?.odooShippingDiscountSKU || "",
     },
   });
 
