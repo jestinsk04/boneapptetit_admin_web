@@ -12,3 +12,11 @@ export const formatToLocalDateString = (isoDateString: string): string => {
     day: "numeric",
   });
 };
+
+export const paymentsMethods = [
+  "Zelle",
+  "Efectivo a la Entrega",
+  "Pago Móvil",
+  "shopify_payments",
+  "Cashea",
+];

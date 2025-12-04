@@ -1,3 +1,4 @@
+import { paymentsMethods } from "@/shared/utils/helpers";
 import {
   Checkbox,
   createTheme,
@@ -6,14 +7,6 @@ import {
   Label,
   ThemeProvider,
 } from "flowbite-react";
-
-const paymentsMethods = [
-  "Zelle",
-  "Efectivo a la Entrega",
-  "Pago Móvil",
-  "shopify_payments",
-  "Cashea",
-];
 
 interface PaymentsMethodsDropdownProps {
   currentValue: string;
