@@ -18,5 +18,6 @@ export const paymentsMethods = [
   "Efectivo a la Entrega",
   "Pago Móvil",
   "shopify_payments",
-  "Cashea",
+  "Cashea ",
+  "Domiciliación Cuenta Bancaria Nacional",
 ];

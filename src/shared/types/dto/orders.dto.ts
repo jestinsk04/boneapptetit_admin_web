@@ -25,6 +25,7 @@ export interface ManualOrder {
   createdAt: string; // ISO date string
   updatedAt: string; // ISO date string
   changePaymentLog?: ChangePaymentLog;
+  bankReference?: string;
 }
 
 export type UpdateOrderRequest = {
@@ -34,6 +35,7 @@ export type UpdateOrderRequest = {
   logisticValidate: boolean;
   requiresChange: boolean;
   paymentMethodId: number;
+  bankReference?: string;
 };
 
 export type ChangePaidRequest = {

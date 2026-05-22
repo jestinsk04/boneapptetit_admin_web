@@ -1,7 +1,8 @@
 import { ColDef } from "ag-grid-community";
 import { BillImageLink } from "../components/billImageLink";
+import { ManualOrder } from "@/shared/types/dto/orders.dto";
 
-export const colDefs: ColDef[] = [
+export const colDefs: ColDef<ManualOrder>[] = [
   {
     field: "createdAt",
     headerName: "Created At",
@@ -38,6 +39,12 @@ export const colDefs: ColDef[] = [
   {
     field: "paymentMethod.name",
     headerName: "Payment Method",
+    flex: 1,
+    filter: "agTextColumnFilter",
+  },
+  {
+    field: "bankReference",
+    headerName: "Bank Reference",
     flex: 1,
     filter: "agTextColumnFilter",
   },

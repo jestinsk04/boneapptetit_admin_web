@@ -10,4 +10,5 @@ export const updateOrderSchema = yup.object().shape({
   logisticValidate: yup.boolean().required("Logistic Validate is required"),
   paymentMethodId: yup.number().required("Payment Method ID is required"),
   requiresChange: yup.boolean().required("Requires Change is required"),
+  bankReference: yup.string().optional().default(""),
 });
