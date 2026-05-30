@@ -61,6 +61,16 @@ export const Nav = () => {
             Webhook Config
           </NavbarLink>
         )}
+        {isAdmin && (
+          <NavbarLink
+            as={Link}
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
+            to="/bank/holidays"
+          >
+            Bank Holidays
+          </NavbarLink>
+        )}
 
         <NavbarLink
           as={Link}

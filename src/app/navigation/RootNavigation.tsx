@@ -1,3 +1,5 @@
+import BankView from "@/features/bank/BankView";
+import { BankHolidaysView } from "@/features/bank/Holidays/BankHolidaysView";
 import Home from "@/features/home/Home";
 import { OrdersManualView } from "@/features/orders/Manual/OrdersManualView";
 import OrdersView from "@/features/orders/OrdersView";
@@ -18,6 +20,10 @@ export const RootNavigation = () => {
       {/* orders routes */}
       <Route path="/orders" element={<OrdersView />}>
         <Route path="manual" element={<OrdersManualView />} />
+      </Route>
+      {/* bank routes */}
+      <Route path="/bank" element={<BankView />}>
+        <Route path="holidays" element={<BankHolidaysView />} />
       </Route>
     </Routes>
   );

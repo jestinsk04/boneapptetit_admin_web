@@ -48,4 +48,12 @@ export const EndpointsList = {
       endpoint: "/orders/payment-methods",
     },
   },
+  Bank: {
+    GetBankHolidays: {
+      endpoint: "/bank/holidays",
+    },
+    UploadBankHoliday: {
+      endpoint: "/bank/holidays",
+    },
+  },
 };
