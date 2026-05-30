@@ -8,8 +8,13 @@ export const colDefs: ColDef<BankHoliday>[] = [
     headerName: "Holiday Date",
     flex: 1,
     sort: "desc",
+    filter: "agDateColumnFilter",
+    cellDataType: "dateString",
     valueFormatter: (params) => {
       return formatToLocalDateStringTemporal(params.value);
+    },
+    filterValueGetter: (params) => {
+      return params.data?.date ? params.data.date.substring(0, 10) : null;
     },
   },
   {
@@ -19,6 +24,11 @@ export const colDefs: ColDef<BankHoliday>[] = [
     valueFormatter: (params) => {
       return formatToLocalDateStringTemporal(params.value);
     },
+    filterValueGetter: (params) => {
+      return params.data?.createdAt
+        ? params.data.createdAt.substring(0, 10)
+        : null;
+    },
   },
   {
     field: "updatedAt",
@@ -26,6 +36,11 @@ export const colDefs: ColDef<BankHoliday>[] = [
     flex: 1,
     valueFormatter: (params) => {
       return formatToLocalDateStringTemporal(params.value);
+    },
+    filterValueGetter: (params) => {
+      return params.data?.updatedAt
+        ? params.data.updatedAt.substring(0, 10)
+        : null;
     },
   },
 ];
