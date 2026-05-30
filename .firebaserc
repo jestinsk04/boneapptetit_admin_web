@@ -1,5 +1,23 @@
 {
   "projects": {
-    "default": "gen-lang-client-0359101987"
-  }
+    "dev": "gen-lang-client-0359101987",
+    "prod": "pasarela-de-pagos-475314"
+  },
+  "targets": {
+    "gen-lang-client-0359101987": {
+      "hosting": {
+        "gen-lang-client-0359101987": [
+          "gen-lang-client-0359101987"
+        ]
+      }
+    },
+    "pasarela-de-pagos-475314": {
+      "hosting": {
+        "pasarela-de-pagos-475314": [
+          "pasarela-de-pagos-475314"
+        ]
+      }
+    }
+  },
+  "etags": {}
 }
