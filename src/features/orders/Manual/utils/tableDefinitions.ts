@@ -38,6 +38,11 @@ export const colDefs: ColDef[] = [
     flex: 1,
   },
   {
+    field: "bankReference",
+    headerName: "Bank Reference",
+    flex: 1,
+  },
+  {
     field: "billImageUrl",
     headerName: "Bill Image",
     flex: 1,

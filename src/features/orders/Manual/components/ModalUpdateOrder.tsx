@@ -40,12 +40,12 @@ export const ModalUpdateOrder = ({
       if (!currentData) return;
       const response = await ordersService.UpdateManualOrder(
         data,
-        currentData.id
+        currentData.id,
       );
       setLanding(false);
       onResult(response);
     },
-    [onResult, currentData]
+    [onResult, currentData],
   );
 
   const {
@@ -99,22 +99,6 @@ export const ModalUpdateOrder = ({
                 <InputErrorMessage message={errors.amount?.message} />
               </div>
 
-              <div>
-                <div className="block">
-                  <Label htmlFor="serial">
-                    Referencia bancaria (opcional):
-                  </Label>
-                </div>
-                <TextInput
-                  required
-                  inputMode="text"
-                  type="text"
-                  color={errors.bankReference && "failure"}
-                  {...register("bankReference")}
-                />
-                <InputErrorMessage message={errors.bankReference?.message} />
-              </div>
-
               <div className="flex flex-col justify-end">
                 <div className="block">
                   <Label htmlFor="serial">Estado de validación:</Label>
@@ -130,6 +114,21 @@ export const ModalUpdateOrder = ({
                   <option value="CANCELED">Canceled</option>
                 </Select>
                 <InputErrorMessage message={errors.validateStatus?.message} />
+              </div>
+
+              <div>
+                <div className="block">
+                  <Label htmlFor="serial">
+                    Referencia bancaria (opcional):
+                  </Label>
+                </div>
+                <TextInput
+                  inputMode="text"
+                  type="text"
+                  color={errors.bankReference && "failure"}
+                  {...register("bankReference")}
+                />
+                <InputErrorMessage message={errors.bankReference?.message} />
               </div>
 
               <div className="col-span-2">
