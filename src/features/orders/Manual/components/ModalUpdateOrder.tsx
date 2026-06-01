@@ -69,6 +69,7 @@ export const ModalUpdateOrder = ({
         paymentMethodId: currentData.paymentMethodId,
         requiresChange: currentData.requiresChange,
         validateStatus: currentData.validateStatus,
+        bankReference: currentData.bankReference || "",
       });
     }
   }, [currentData, openModal, reset]);
@@ -98,6 +99,22 @@ export const ModalUpdateOrder = ({
                 <InputErrorMessage message={errors.amount?.message} />
               </div>
 
+              <div>
+                <div className="block">
+                  <Label htmlFor="serial">
+                    Referencia bancaria (opcional):
+                  </Label>
+                </div>
+                <TextInput
+                  required
+                  inputMode="text"
+                  type="text"
+                  color={errors.bankReference && "failure"}
+                  {...register("bankReference")}
+                />
+                <InputErrorMessage message={errors.bankReference?.message} />
+              </div>
+
               <div className="flex flex-col justify-end">
                 <div className="block">
                   <Label htmlFor="serial">Estado de validación:</Label>
@@ -112,7 +129,7 @@ export const ModalUpdateOrder = ({
                   <option value="COMPLETED">Completed</option>
                   <option value="CANCELED">Canceled</option>
                 </Select>
-                <InputErrorMessage message={errors.amount?.message} />
+                <InputErrorMessage message={errors.validateStatus?.message} />
               </div>
 
               <div className="col-span-2">
@@ -123,7 +140,7 @@ export const ModalUpdateOrder = ({
                   currentValue={watch("paymentMethodId")}
                   onChange={(value) => setValue("paymentMethodId", value)}
                 />
-                <InputErrorMessage message={errors.orderName?.message} />
+                <InputErrorMessage message={errors.paymentMethodId?.message} />
               </div>
 
               <div className="flex items-center gap-2">
