@@ -33,6 +33,8 @@ Este sistema es un panel administrativo para gestionar configuraciones y monitor
 
 ## 3. Estructura General de la Interfaz
 
+- **Barra de navegación (superior)**: Muestra el logo, un saludo con tu correo y enlaces rápidos a secciones: _Home_, _Webhook Config_, _Webhook Logs_, _Manual Orders_.
+- **Tasa BCV**: Muestra la tasa de cambio actual del Banco Central de Venezuela.
 - **Barra de navegación (superior)**: Muestra el logo, un saludo con tu correo y enlaces rápidos a secciones: _Home_, _Webhook Config_, _Webhook Logs_.
 - **Contenido principal**: Cambia según la sección seleccionada.
 - **Breadcrumb (miga de pan)**: Indica en qué parte del sistema te encuentras dentro de la sección Webhook.
@@ -91,6 +93,28 @@ Flujo para revisar y reintentar:
 4. En una fila con error, presionar el botón de reintento.
 5. Esperar notificación de resultado (éxito o error).
 
+### 4.4 Orders (Órdenes)
+
+Aquí puedes visualizar y gestionar órdenes que no se pueden procesar de forma automatica.
+
+Partes de la pantalla:
+
+- **Botón Refresh**: Actualiza la lista de órdenes.
+- **Caja de búsqueda (Buscar)**: Permite encontrar órdenes específicas por texto.
+- **Tabla de órdenes**: Muestra un listado de las órdenes manuales con detalles como ID, cliente, total y estado.
+- **Acciones por orden**:
+  - **Editar (ícono de lápiz)**: Abre una ventana (`modal`) para modificar los detalles de la orden.
+  - **Enviar Vuelto (ícono de `$` o similar)**: Abre una ventana para gestionar el envío de un vuelto o cambio.
+  - **Ver Log de Cambios (ícono de ojo o similar)**: Permite visualizar el historial de cambios de pago para una orden.
+
+Flujo para gestionar una orden manual:
+
+1.  Navegar a **Manual Orders** desde la barra de navegación.
+2.  Utilizar la búsqueda para encontrar la orden deseada.
+3.  Hacer clic en el ícono de **Editar** para corregir algún dato de la orden. Guardar los cambios.
+4.  Si es necesario, usar la opción de **Enviar Vuelto** para registrar una transacción de cambio.
+5.  Verificar el historial de la orden con el botón **Ver Log de Cambios**.
+
 ## 5. Notificaciones y Mensajes
 
 - **Éxito**: Se muestran en verde informando que la operación fue completada.
@@ -123,13 +147,14 @@ Flujo para revisar y reintentar:
 
 ## 7. Resolución de Problemas Comunes
 
-| Problema                                | Posible causa                | Acción sugerida                    |
-| --------------------------------------- | ---------------------------- | ---------------------------------- |
-| No puedo iniciar sesión                 | Cuenta no registrada         | Verificar con administrador        |
-| Botón Google no responde                | Bloqueo de ventana emergente | Habilitar pop-ups del navegador    |
-| No se guardan cambios en Webhook Config | Error de red                 | Revisar conexión y reintentar      |
-| No aparecen registros en Logs           | No se han generado eventos   | Usar Refresh o validar integración |
-| Reintento falla repetidamente           | Error lógico en backend      | Escalar al equipo técnico          |
+| Problema                                | Posible causa                  | Acción sugerida                    |
+| --------------------------------------- | ------------------------------ | ---------------------------------- |
+| No puedo iniciar sesión                 | Cuenta no registrada           | Verificar con administrador        |
+| Botón Google no responde                | Bloqueo de ventana emergente   | Habilitar pop-ups del navegador    |
+| No se guardan cambios en Webhook Config | Error de red                   | Revisar conexión y reintentar      |
+| No aparecen registros en Logs           | No se han generado eventos     | Usar Refresh o validar integración |
+| Reintento falla repetidamente           | Error lógico en backend        | Escalar al equipo técnico          |
+| No puedo editar una orden manual        | Permisos insuficientes o error | Contactar a soporte técnico        |
 
 ## 8. Buenas Prácticas de Uso
 

@@ -15,7 +15,7 @@ import { toast } from "react-toastify";
 import { SearchBox } from "@/shared/component/SearchBox";
 import { FaRotateRight } from "react-icons/fa6";
 
-export const WebhookLogsView = () => {
+export const WebhookInvoicesLogsView = () => {
   const { handleChangeViewName, currentViewName } =
     useOutletContext<LayoutOutletContext>();
   const [searchArgument, setSearchArgument] = useState<string>("");
@@ -26,13 +26,13 @@ export const WebhookLogsView = () => {
   );
 
   useLayoutEffect(() => {
-    if (currentViewName !== "Webhook Logs") {
-      handleChangeViewName("Webhook Logs");
+    if (currentViewName !== "Webhook Invoices Logs") {
+      handleChangeViewName("Webhook Invoices Logs");
     }
   }, [currentViewName, handleChangeViewName]);
   const { data: gridData, refetch: refetchGridData } = useQuery({
-    queryKey: ["webhook-logs-data"],
-    queryFn: async () => await webhookService.GetLogs(),
+    queryKey: ["webhook-invoices-logs-data"],
+    queryFn: async () => await webhookService.GetInvoicesLogs(),
     initialData: [],
     enabled: false, // Evita que se ejecute automáticamente al montar
   });
@@ -53,7 +53,7 @@ export const WebhookLogsView = () => {
 
   const handleReintent = useCallback(
     async (data: webhookLogs) => {
-      const res = await webhookService.ReintentLog(data.id);
+      const res = await webhookService.ReintentInvoicesLog(data.id);
       if (res) {
         toast.success(`Reintento de orden ${data.operation} exitoso`);
         await refetchGridData();

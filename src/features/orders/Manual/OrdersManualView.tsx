@@ -8,7 +8,7 @@ import { FaRotateRight } from "react-icons/fa6";
 import { LayoutOutletContext } from "@/shared/types/components/Layout";
 import { useOutletContext } from "react-router";
 import { useCallback, useLayoutEffect, useMemo, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { ordersService } from "@/shared/services/orders.service";
 import { GridOptions, GridReadyEvent } from "ag-grid-community";
 import { ManualOrder } from "@/shared/types/dto/orders.dto";
@@ -30,13 +30,22 @@ export const OrdersManualView = () => {
   const [openEditModal, setOpenEditModal] = useState(false);
   const [openViewChangePaymentLogModal, setOpenViewChangePaymentLogModal] =
     useState(false);
+  const [loading, setLoading] = useState(false);
 
+  const queryClient = useQueryClient();
   const { data: gridData, refetch: refetchGridData } = useQuery({
     queryKey: ["manual-orders-data"],
     queryFn: async () => await ordersService.GetManualOrders(),
     initialData: [],
     enabled: false, // Evita que se ejecute automáticamente al montar
   });
+
+  const resetGridData = useCallback(async () => {
+    setLoading(true);
+    queryClient.setQueryData(["manual-orders-data"], []);
+    await refetchGridData();
+    setLoading(false);
+  }, [queryClient, refetchGridData]);
 
   const handleChangePaidButtonClick = useCallback((data: ManualOrder) => {
     setCurrentData(data);
@@ -81,10 +90,10 @@ export const OrdersManualView = () => {
 
   const handleGridReady = useCallback(
     async (params: GridReadyEvent) => {
-      await refetchGridData();
+      await resetGridData();
       params.api.sizeColumnsToFit();
     },
-    [refetchGridData]
+    [resetGridData]
   );
 
   useLayoutEffect(() => {
@@ -161,7 +170,7 @@ export const OrdersManualView = () => {
             </Button> */}
           </div>
           <div className="flex justify-between gap-4">
-            <Button color={"gray"} onClick={() => refetchGridData()}>
+            <Button color={"gray"} onClick={resetGridData}>
               <FaRotateRight className="mr-2" />
               Refresh
             </Button>
@@ -184,6 +193,7 @@ export const OrdersManualView = () => {
             gridOptions={gridOptions}
             quickFilterText={searchArgument}
             tooltipShowDelay={0}
+            loading={loading}
           />
         </div>
       </Card>

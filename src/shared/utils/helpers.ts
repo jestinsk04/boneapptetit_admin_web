@@ -26,3 +26,11 @@ export const formatToLocalDateStringTemporal = (isoDateString: string): string =
     day: "2-digit",
   });
 };
+export const paymentsMethods = [
+  "Zelle",
+  "Efectivo a la Entrega",
+  "Pago Móvil",
+  "shopify_payments",
+  "Cashea ",
+  "Domiciliación Cuenta Bancaria Nacional",
+];

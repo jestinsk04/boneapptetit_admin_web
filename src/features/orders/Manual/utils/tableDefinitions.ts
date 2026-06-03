@@ -1,7 +1,8 @@
 import { ColDef } from "ag-grid-community";
 import { BillImageLink } from "../components/billImageLink";
+import { ManualOrder } from "@/shared/types/dto/orders.dto";
 
-export const colDefs: ColDef[] = [
+export const colDefs: ColDef<ManualOrder>[] = [
   {
     field: "createdAt",
     headerName: "Created At",
@@ -10,6 +11,7 @@ export const colDefs: ColDef[] = [
     valueFormatter: (params) => {
       return new Date(params.value).toLocaleString();
     },
+    filter: "agDateColumnFilter",
   },
   {
     field: "validateStatus",
@@ -25,17 +27,26 @@ export const colDefs: ColDef[] = [
       }
       return { color: "red" };
     },
+    filter: "agTextColumnFilter",
   },
   {
     field: "orderName",
     headerName: "Order Name",
     flex: 1,
     pinned: "left",
+    filter: "agTextColumnFilter",
   },
   {
     field: "paymentMethod.name",
     headerName: "Payment Method",
     flex: 1,
+    filter: "agTextColumnFilter",
+  },
+  {
+    field: "bankReference",
+    headerName: "Bank Reference",
+    flex: 1,
+    filter: "agTextColumnFilter",
   },
   {
     field: "bankReference",
@@ -52,11 +63,13 @@ export const colDefs: ColDef[] = [
     field: "orderTotalAmount",
     headerName: "Order Total Amount",
     flex: 1,
+    filter: "agNumberColumnFilter",
   },
   {
     field: "amount",
     headerName: "User Amount",
     flex: 1,
+    filter: "agNumberColumnFilter",
   },
   {
     field: "requiresChange",

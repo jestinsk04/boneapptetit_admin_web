@@ -1,4 +1,4 @@
-import { ManualOrder, UpdateOrderRequest } from "@/shared/types/dto/orders.dto";
+import { ManualOrder } from "@/shared/types/dto/orders.dto";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
   Button,
@@ -19,6 +19,7 @@ import { InputErrorMessage } from "@/shared/component/InputErrorMessage";
 import { FaCheck, FaXmark } from "react-icons/fa6";
 import { ordersService } from "@/shared/services/orders.service";
 import { PaymentMethodDropdown } from "./PaymentMethodDropdown";
+import { InferType } from "yup";
 
 interface ModalUpdateOrderProps {
   openModal: boolean;
@@ -27,6 +28,8 @@ interface ModalUpdateOrderProps {
   onResult: (success: boolean) => void;
 }
 
+type FormData = InferType<typeof updateOrderSchema>;
+
 export const ModalUpdateOrder = ({
   openModal,
   onClose,
@@ -34,7 +37,7 @@ export const ModalUpdateOrder = ({
   currentData,
 }: ModalUpdateOrderProps) => {
   const [landing, setLanding] = useState(false);
-  const onSubmit: SubmitHandler<UpdateOrderRequest> = useCallback(
+  const onSubmit: SubmitHandler<FormData> = useCallback(
     async (data) => {
       setLanding(true);
       if (!currentData) return;
@@ -55,7 +58,7 @@ export const ModalUpdateOrder = ({
     watch,
     setValue,
     formState: { errors },
-  } = useForm<UpdateOrderRequest>({
+  } = useForm<FormData>({
     resolver: yupResolver(updateOrderSchema),
     mode: "onSubmit",
   });
@@ -69,7 +72,7 @@ export const ModalUpdateOrder = ({
         paymentMethodId: currentData.paymentMethodId,
         requiresChange: currentData.requiresChange,
         validateStatus: currentData.validateStatus,
-        bankReference: currentData.bankReference || "",
+        bankReference: currentData.bankReference,
       });
     }
   }, [currentData, openModal, reset]);
@@ -97,6 +100,25 @@ export const ModalUpdateOrder = ({
                   {...register("amount")}
                 />
                 <InputErrorMessage message={errors.amount?.message} />
+              </div>
+
+              <div>
+                <div className="block">
+                  <Label htmlFor="serial">
+                    Referencia bancaria (si aplica):
+                  </Label>
+                </div>
+                <TextInput
+                  required
+                  inputMode="numeric"
+                  type="number"
+                  step={0.01}
+                  min={1}
+                  color={errors.bankReference && "failure"}
+                  disabled={currentData?.validateStatus === "COMPLETED"}
+                  {...register("bankReference")}
+                />
+                <InputErrorMessage message={errors.bankReference?.message} />
               </div>
 
               <div className="flex flex-col justify-end">
