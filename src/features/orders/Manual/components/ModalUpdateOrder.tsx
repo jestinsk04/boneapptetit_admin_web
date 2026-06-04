@@ -102,25 +102,6 @@ export const ModalUpdateOrder = ({
                 <InputErrorMessage message={errors.amount?.message} />
               </div>
 
-              <div>
-                <div className="block">
-                  <Label htmlFor="serial">
-                    Referencia bancaria (si aplica):
-                  </Label>
-                </div>
-                <TextInput
-                  required
-                  inputMode="numeric"
-                  type="number"
-                  step={0.01}
-                  min={1}
-                  color={errors.bankReference && "failure"}
-                  disabled={currentData?.validateStatus === "COMPLETED"}
-                  {...register("bankReference")}
-                />
-                <InputErrorMessage message={errors.bankReference?.message} />
-              </div>
-
               <div className="flex flex-col justify-end">
                 <div className="block">
                   <Label htmlFor="serial">Estado de validación:</Label>
